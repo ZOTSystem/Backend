@@ -5,6 +5,9 @@ using Swashbuckle.AspNetCore.Filters;
 using be.Repositories.ModRepository;
 using be.Models;
 using be.Services.ModService;
+using be.Services.PostService;
+using be.Services.PostcommentService;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,7 +33,8 @@ var services = builder.Services;
 services.AddHttpContextAccessor();
 
 services.AddScoped<IModRepository, ModRepository>();
-services.AddScoped<IModService, ModService>();
+services.AddScoped<IPostService, PostService>();
+services.AddScoped<IPostcommentService, PostcommentService>();
 
 var app = builder.Build();
 
