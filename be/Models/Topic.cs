@@ -7,11 +7,17 @@ public partial class Topic
 {
     public int TopicId { get; set; }
 
+    public string? TopicName { get; set; }
+
     public string? Duration { get; set; }
 
     public int? TotalQuestion { get; set; }
 
-    public string? TopicName { get; set; }
+    public int? TopicType { get; set; }
+
+    public int? Grade { get; set; }
+
+    public DateTime? CreateDate { get; set; }
 
     public string? Status { get; set; }
 

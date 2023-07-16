@@ -12,5 +12,6 @@ namespace be.Repositories.ModRepository
         object ChangeStatus(int accountId, string status);
         void UpdateMod(Account account);
         IList<string> GetAllEmail();
+
     }
 }

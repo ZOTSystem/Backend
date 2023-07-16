@@ -14,6 +14,4 @@ public partial class Subject
     public virtual ICollection<Post> Posts { get; set; } = new List<Post>();
 
     public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
-
-    public virtual ICollection<Testdetail> Testdetails { get; set; } = new List<Testdetail>();
 }

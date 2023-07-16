@@ -1,0 +1,23 @@
+﻿using be.DTOs;
+using be.Models;
+
+namespace be.Repositories.UserRepository
+{
+    public interface IUserRepository
+    {
+        #region HUY - LOGIN/REGISTER/FORGOR PASSWORD/GETINFO/UPDATE USER/ CHANGE PASSWORD
+        object Login(string email, string password, IConfiguration config);
+        object Register(Register register);
+        Task<object> ForgotPassword(string email);
+        Task<object> GetInfo(string token);
+        object UpdateUser(UpdateUser user);
+        object LoginByGoogle (Register register, IConfiguration config);
+
+        Task<object> ChangePassword(int accountId ,string newPassword);
+        object ChangeAvatar(int accountId, string newAvatar);
+
+        public Task<object> SearchInforByEmail(string email);
+        #endregion
+
+    }
+}

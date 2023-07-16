@@ -44,6 +44,4 @@ public partial class Account
     public virtual ICollection<Reportpost> Reportposts { get; set; } = new List<Reportpost>();
 
     public virtual Role? Role { get; set; }
-
-    public virtual ICollection<Testdetail> Testdetails { get; set; } = new List<Testdetail>();
 }

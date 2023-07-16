@@ -13,8 +13,6 @@ public partial class Question
 
     public int? AnswerId { get; set; }
 
-    public int? TypeTestId { get; set; }
-
     public int? LevelId { get; set; }
 
     public int? TopicId { get; set; }
@@ -48,6 +46,4 @@ public partial class Question
     public virtual Subject? Subject { get; set; }
 
     public virtual Topic? Topic { get; set; }
-
-    public virtual Typetest? TypeTest { get; set; }
 }

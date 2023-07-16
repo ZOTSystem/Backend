@@ -1,0 +1,66 @@
+﻿using be.DTOs;
+using be.Models;
+using be.Repositories.UserRepository;
+
+namespace be.Services.UserService
+{
+
+    public class UserService : IUserService
+    {
+        private readonly IUserRepository _userRepository;
+
+        public UserService()
+        {
+            _userRepository = new UserRepository();
+        }
+
+
+
+        #region HUY - LOGIN/REGISTER/FORGOR PASSWORD/GETINFO/ UPDATE USER/ CHANGE PASSWORD
+        public object ChangeAvatar(int accountId, string newAvatar)
+        {
+            return _userRepository.ChangeAvatar(accountId, newAvatar);
+        }
+
+        public Task<object> ChangePassword(int accountId, string newPassword)
+        {
+            return _userRepository.ChangePassword(accountId, newPassword);
+        }
+        public Task<object> ForgotPassword(string email)
+        {
+            return _userRepository.ForgotPassword(email);
+        }
+
+        public async Task<object> GetInfo(string token)
+        {
+            return _userRepository.GetInfo(token);
+        }
+
+        public object Login(string email, string password, IConfiguration config)
+        {
+            return _userRepository.Login(email, password, config);
+        }
+
+        public object LoginByGoogle(Register register, IConfiguration config)
+        {
+            return _userRepository.LoginByGoogle(register, config);   
+        }
+
+        public object Register(Register register)
+        {
+            return _userRepository.Register(register);
+        }
+
+        public Task<object> SearchInforByEmail(string email)
+        {
+            return _userRepository.SearchInforByEmail(email);
+        }
+
+        public object UpdateUser(UpdateUser user)
+        {
+            return _userRepository.UpdateUser(user);
+        }
+
+        #endregion
+    }
+}
