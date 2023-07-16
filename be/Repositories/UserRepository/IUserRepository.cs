@@ -12,7 +12,6 @@ namespace be.Repositories.UserRepository
         Task<object> GetInfo(string token);
         object UpdateUser(UpdateUser user);
         object LoginByGoogle (Register register, IConfiguration config);
-
         Task<object> ChangePassword(int accountId ,string newPassword);
         object ChangeAvatar(int accountId, string newAvatar);
 
