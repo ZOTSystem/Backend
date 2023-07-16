@@ -22,7 +22,7 @@ namespace be.Controllers
         public async Task<ActionResult> GetAllMod()
         {
             try
-            {
+            { 
                 var data = await _modService.GetAllMod();
                 return Ok(data);
             } catch
@@ -45,7 +45,7 @@ namespace be.Controllers
             }
         }
 
-        [HttpPost("AddUser")]
+        [HttpPost("addMod")]
         public async Task<ActionResult> AddMod([FromBody]AccountDTO addAccount)
         {
             try
@@ -67,7 +67,7 @@ namespace be.Controllers
             }
         }
 
-        [HttpPost("ChangeStatus")]
+        [HttpPost("changeStatus")]
         public async Task<ActionResult> ChangeStatus(int accountId, string status)
         {
             try
@@ -81,7 +81,7 @@ namespace be.Controllers
             }
         }
 
-        [HttpPost("UpdateMod")]
+        [HttpPost("updateMod")]
         public async Task<ActionResult> UpdateMod(int accountId, Account account)
         {
             if (accountId != account.AccountId)

@@ -7,8 +7,6 @@ public partial class Testdetail
 {
     public int TestDetailId { get; set; }
 
-    public int? SubjectId { get; set; }
-
     public int? AccountId { get; set; }
 
     public double? Score { get; set; }
@@ -17,9 +15,5 @@ public partial class Testdetail
 
     public DateTime? CreateDate { get; set; }
 
-    public virtual Account? Account { get; set; }
-
     public virtual ICollection<Questiontest> Questiontests { get; set; } = new List<Questiontest>();
-
-    public virtual Subject? Subject { get; set; }
 }
