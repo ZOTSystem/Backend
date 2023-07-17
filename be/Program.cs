@@ -9,6 +9,7 @@ using be.Services.PostService;
 using be.Services.PostcommentService;
 using be.Repositories.UserRepository;
 using be.Services.UserService;
+using be.Services.SubjectService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,8 @@ services.AddScoped<IModService, ModService>();
 
 services.AddScoped<IPostService, PostService>();
 services.AddScoped<IPostcommentService, PostcommentService>();
+services.AddScoped<ISubjectService, SubjectService>();
+
 
 services.AddScoped<IUserRepository, UserRepository>();
 services.AddScoped<IUserService, UserService>();

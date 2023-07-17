@@ -18,6 +18,11 @@ namespace be.Services.PostcommentService
             return result;
         }
 
+        public dynamic GetCommentByPost(int postId)
+        {
+            return _postcommentRepository.GetCommentByPost(postId);
+        }
+
         public object ChangeStatusPostcomment(int postcommentId, string status)
         {
             return _postcommentRepository.ChangeStatusPostcomment(postcommentId, status);

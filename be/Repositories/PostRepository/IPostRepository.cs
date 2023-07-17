@@ -10,6 +10,7 @@ namespace be.Repositories.PostRepository
         object GetPostById(int PostId);
         object AddPost(Post PostId);
         object ChangeStatusPost(int PostId, string status);
-        void EditPost(Post post);    
+        void EditPost(Post post);
+        dynamic GetPostBySubject(string subjectName);
     }
 }

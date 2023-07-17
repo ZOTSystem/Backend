@@ -1,4 +1,7 @@
-﻿namespace be.Repositories.SubjectRepository
+﻿using be.Models;
+
+
+namespace be.Repositories.SubjectRepository
 {
     public interface ISubjectRepository
     {

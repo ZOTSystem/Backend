@@ -1,4 +1,6 @@
-﻿namespace be.Services.SubjectService
+﻿using be.Models;
+
+namespace be.Services.SubjectService
 {
     public interface ISubjectService
     {

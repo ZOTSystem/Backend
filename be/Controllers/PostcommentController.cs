@@ -19,24 +19,42 @@ namespace be.Controllers
         }
 
         [HttpPost("AddComment")]
-        public async Task<ActionResult> AddPostcomment([FromBody]PostDTO addPost)
+        public async Task<ActionResult> AddPostcomment([FromBody]PostcommentDTO addPostcomment)
         {
             try
             {
                 var postcomment = new Postcomment();
-                postcomment.Content = postcomment.Content;
-                postcomment.FileComment = postcomment.FileComment;
+                postcomment.PostId = addPostcomment.PostId;
+                postcomment.AccountId = addPostcomment.AccountId;
+                postcomment.Content = addPostcomment.Content;
+                postcomment.FileComment = addPostcomment.FileComment;
                 postcomment.Status = "Đã đăng";
                 postcomment.CommentDate = DateTime.Now;
                 var result = _postcommentService.AddPostcomment(postcomment);
+                
                 return Ok(result);
-            } catch
+            } 
+            catch
             {
                 return BadRequest();
             }
         }
 
-        [HttpPost("ChangeStatusPostcomment")]
+        [HttpGet("getCommentByPost")]
+        public ActionResult GetCommentbyPost(int postId)
+        {
+            try
+            {
+                var data =  _postcommentService.GetCommentByPost(postId);
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+                [HttpPost("ChangeStatusPostcomment")]
         public async Task<ActionResult> ChangeStatusPostcomment(int postcommentId, string status)
         {
             try

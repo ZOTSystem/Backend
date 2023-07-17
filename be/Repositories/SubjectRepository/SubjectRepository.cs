@@ -1,4 +1,8 @@
 ﻿using be.Models;
+using Microsoft.Identity.Client;
+using System.Collections;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 
 namespace be.Repositories.SubjectRepository
 {
@@ -21,7 +25,7 @@ namespace be.Repositories.SubjectRepository
                             subject.ImgLink,
                         }).ToList();
             return new
-            {
+              {
                 status = 200,
                 data,
             };
