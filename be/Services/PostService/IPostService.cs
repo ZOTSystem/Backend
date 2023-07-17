@@ -10,5 +10,7 @@ namespace be.Services.PostService
         object AddPost(Post PostId);
         object ChangeStatusPost(int PostId, string status);
         void EditPost(Post post);
+        dynamic GetPostBySubject(string subjectName);
+
     }
 }

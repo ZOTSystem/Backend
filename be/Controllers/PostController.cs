@@ -85,5 +85,12 @@ namespace be.Controllers
             _postService.EditPost(post);
             return Ok();
         }
+
+        [HttpGet("FilterPostBySubject")]
+        public ActionResult GetPostBySubject(string subjectName)
+        {
+            dynamic posts = _postService.GetPostBySubject(subjectName);
+            return Ok(posts);
+        }
     }
 }

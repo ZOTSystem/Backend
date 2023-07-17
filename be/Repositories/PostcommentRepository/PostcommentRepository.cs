@@ -3,6 +3,7 @@ using be.Models;
 using Microsoft.Identity.Client;
 using System.Collections;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity;
 
 namespace be.Repositories.PostcommentRepository
 {
@@ -22,7 +23,7 @@ namespace be.Repositories.PostcommentRepository
                 _context.SaveChanges();
                 return new
                 {
-                    message = "Add post successfully",
+                    message = "Comment successfully",
                     postcomment,
                     status = 200
                 };
@@ -31,10 +32,26 @@ namespace be.Repositories.PostcommentRepository
             {
                 return new
                 {
-                    message = "Add mod fail",
+                    message = "Cannot comment in this post",
                     status = 400
                 };
             }
+        }
+        public dynamic GetCommentByPost(int postId)
+        {
+            var postcomments = _context.Postcomments.Include(p => p.Post).Where(p => p.PostId == postId).Select(p =>
+            new
+            {
+                p.PostCommentId,
+                p.AccountId,
+                p.Account.FullName,
+                p.PostId,
+                p.Content,
+                p.FileComment,
+                p.Status,
+                p.CommentDate
+            });
+            return postcomments;
         }
         public object ChangeStatusPostcomment(int postcommentId, string status)
         {

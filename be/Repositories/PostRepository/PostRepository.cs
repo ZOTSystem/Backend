@@ -3,6 +3,8 @@ using be.Models;
 using Microsoft.Identity.Client;
 using System.Collections;
 using System.Data.Entity.Infrastructure;
+using System.Dynamic;
+using System.Data.Entity;
 
 namespace be.Repositories.PostRepository
 {
@@ -61,27 +63,23 @@ namespace be.Repositories.PostRepository
                 };
             }
         }
-
         public async Task<object> GetAllPost()
         {
-            var data = (from post in _context.Posts
-                        select new
-                        {
-                            post.PostId,
-                            post.SubjectId,
-                            post.AccountId,
-                            post.PostText,
-                            post.PostFile,
-                            post.Status,
-                            post.CreateDate,
-                        }).OrderByDescending(x => x.CreateDate).ToList();
-            return new
-            {
-                status = 200,
-                data,
-            };
-        }
 
+            var data = _context.Posts.Include(p => p.Subject).OrderBy(p => p.CreateDate).Select(p =>
+              new
+              {
+                  p.PostId,
+                  p.SubjectId,
+                  p.Subject.SubjectName,
+                  p.AccountId,
+                  p.PostText,
+                  p.PostFile,
+                  p.Status,
+                  p.CreateDate
+              });
+            return data;
+    }
         public object GetPostById(int postId)
         {
             var data = _context.Posts.SingleOrDefault(x => x.PostId == postId);
@@ -108,6 +106,24 @@ namespace be.Repositories.PostRepository
                 throw;
             }
         }
+        public dynamic GetPostBySubject(string subjectName)
+        {
+            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectName == subjectName).OrderBy(p => p.CreateDate).Select(p =>
+            new 
+            {
+                p.PostId,
+                p.SubjectId,
+                p.Subject.SubjectName,
+                p.AccountId,
+                p.PostText,
+                p.PostFile,
+                p.Status,
+                p.CreateDate
+            });
+            return posts;
+        }
     }
+
 }
+
 

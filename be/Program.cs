@@ -7,6 +7,7 @@ using be.Models;
 using be.Services.ModService;
 using be.Services.PostService;
 using be.Services.PostcommentService;
+using be.Services.SubjectService;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,6 +36,8 @@ services.AddHttpContextAccessor();
 services.AddScoped<IModRepository, ModRepository>();
 services.AddScoped<IPostService, PostService>();
 services.AddScoped<IPostcommentService, PostcommentService>();
+services.AddScoped<ISubjectService, SubjectService>();
+
 
 var app = builder.Build();
 
