@@ -66,13 +66,14 @@ namespace be.Repositories.PostRepository
         public async Task<object> GetAllPost()
         {
 
-            var data = _context.Posts.Include(p => p.Subject).OrderBy(p => p.CreateDate).Select(p =>
+            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).OrderBy(p => p.CreateDate).Select(p =>
               new
               {
                   p.PostId,
                   p.SubjectId,
                   p.Subject.SubjectName,
                   p.AccountId,
+                  p.Account.FullName,
                   p.PostText,
                   p.PostFile,
                   p.Status,
