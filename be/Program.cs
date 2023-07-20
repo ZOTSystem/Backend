@@ -15,6 +15,10 @@ using be.Services.SubjectService;
 using be.Repositories.PostRepository;
 using be.Repositories.PostcommentRepository;
 using be.Repositories.SubjectRepository;
+using be.Services.TopicService;
+using be.Repositories.TopicRepository;
+using be.Repositories.QuestionRepository;
+using be.Services.QuestionService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,6 +57,12 @@ services.AddScoped<ISubjectService, SubjectService>();
 
 services.AddScoped<IUserRepository, UserRepository>();
 services.AddScoped<IUserService, UserService>();
+
+services.AddScoped<ITopicRepository, TopicRepository>();
+services.AddScoped<ITopicService, TopicService>();
+
+services.AddScoped<IQuestionRepository, QuestionRepository>();
+services.AddScoped<IQuestionService, QuestionService>();
 
 services.AddScoped<ITestDetailRepository, TestDetailRepository>();
 services.AddScoped<ITestDetailService, TestDetailService>();
