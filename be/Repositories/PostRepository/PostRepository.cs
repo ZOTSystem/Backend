@@ -66,7 +66,7 @@ namespace be.Repositories.PostRepository
         public async Task<object> GetAllPost()
         {
 
-            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).OrderBy(p => p.CreateDate).Select(p =>
+            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).Where(p => p.Status == "Đã duyệt").OrderByDescending(p => p.CreateDate).Select(p =>
               new
               {
                   p.PostId,
@@ -81,6 +81,8 @@ namespace be.Repositories.PostRepository
               });
             return data;
     }
+
+
         public object GetPostById(int postId)
         {
             var data = _context.Posts.SingleOrDefault(x => x.PostId == postId);
@@ -107,15 +109,16 @@ namespace be.Repositories.PostRepository
                 throw;
             }
         }
-        public dynamic GetPostBySubject(string subjectName)
+        public dynamic GetPostBySubject(int subjectId)
         {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectName == subjectName).OrderBy(p => p.CreateDate).Select(p =>
+            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectId == subjectId).Where(p => p.Status == "Đã duyệt").OrderByDescending(p => p.CreateDate).Select(p =>
             new 
             {
                 p.PostId,
                 p.SubjectId,
                 p.Subject.SubjectName,
                 p.AccountId,
+                p.Account.FullName,
                 p.PostText,
                 p.PostFile,
                 p.Status,
@@ -123,8 +126,28 @@ namespace be.Repositories.PostRepository
             });
             return posts;
         }
-    }
+        public dynamic GetPostByStatusAndSubject(string? status, int? subjectId)
+        {
+            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Status == status ||  p.SubjectId == subjectId).OrderBy(p => p.CreateDate).Select(p =>
+                 new
+                 {
+                     p.PostId,
+                     p.Subject.SubjectName,
+                     p.Account.FullName,
+                     p.PostText,
+                     p.PostFile,
+                     p.Status,
+                     p.CreateDate
+                 });
+            return posts;
+        }
 
+/*        public dynamic GetPosts(int page, int pageSize)
+        {
+            int totalNumber = page * pageSize;
+            return GetAllPost().Skip(totalNumber).Take(page).ToList();
+        }*/
+    } 
 }
 
 
