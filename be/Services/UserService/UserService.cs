@@ -62,5 +62,27 @@ namespace be.Services.UserService
         }
 
         #endregion
+
+        #region - MANAGE USER
+        public object GetAllAccountUser()
+        {
+            return _userRepository.GetAllAccountUser();
+        }
+
+        public object UpdateAccountUser()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetAccountUserById()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object ChangeStatus(int accountId, string status)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
     }
 }

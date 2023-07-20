@@ -9,8 +9,12 @@ using be.Services.PostService;
 using be.Services.PostcommentService;
 using be.Repositories.UserRepository;
 using be.Services.UserService;
+using be.Repositories.TestDetailRepository;
+using be.Services.TestDetailService;
 using be.Services.SubjectService;
-
+using be.Repositories.PostRepository;
+using be.Repositories.PostcommentRepository;
+using be.Repositories.SubjectRepository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,13 +42,21 @@ services.AddHttpContextAccessor();
 services.AddScoped<IModRepository, ModRepository>();
 services.AddScoped<IModService, ModService>();
 
+services.AddScoped<IPostRepository, PostRepository>();
 services.AddScoped<IPostService, PostService>();
-services.AddScoped<IPostcommentService, PostcommentService>();
-services.AddScoped<ISubjectService, SubjectService>();
 
+services.AddScoped<IPostcommentRepository, PostcommentRepository>();
+services.AddScoped<IPostcommentService, PostcommentService>();
+
+services.AddScoped<ISubjectRepository, SubjectRepository>();
+services.AddScoped<ISubjectService, SubjectService>();
 
 services.AddScoped<IUserRepository, UserRepository>();
 services.AddScoped<IUserService, UserService>();
+
+services.AddScoped<ITestDetailRepository, TestDetailRepository>();
+services.AddScoped<ITestDetailService, TestDetailService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

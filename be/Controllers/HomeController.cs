@@ -22,7 +22,7 @@ namespace be.Controllers
             _configuration = configuration;
         }
 
-        #region HUY- LOGIN/REGISTER/FORGOR PASSWORD/GETINFOR/CONFIRM ACCOUNT/ UPDATE USER/ CHANGE PASSWORD
+        #region HUY- LOGIN/REGISTER/FORGOR PASSWORD/GETINFOR/CONFIRM ACCOUNT
         [HttpPost("login")]
         public async Task<ActionResult> Login(Login login)
         {
@@ -37,22 +37,7 @@ namespace be.Controllers
             }
         }
 
-        [HttpGet("info")]
-        public async Task<ActionResult> GetInfo(string token)
-        {
-            try
-            {
-                if(token == "")
-                {
-                    return BadRequest();
-                }
-                return Ok(_userService.GetInfo(token));
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
+      
 
         [HttpPost("register")]
         public async Task<ActionResult> Register(Register register)
@@ -140,42 +125,6 @@ namespace be.Controllers
             }   
         }
 
-        [HttpPost("updateUser")]
-        public async Task<ActionResult> UpdateUser (UpdateUser user)
-        {
-            try
-            {
-                var result = _userService.UpdateUser(user);
-                return Ok(result);
-            } catch { return BadRequest(); }    
-        }
-
-        [HttpPost("changePassword")]
-        public async Task<ActionResult> ChangePassword (int accountId, string newPassword)
-        {
-            try
-            {
-                var result = _userService.ChangePassword(accountId, newPassword);
-                return Ok(result);
-            } catch
-            {
-                return BadRequest();
-            }
-        }
-
-        [HttpPost("changeAvatar")]
-        public async Task<ActionResult> ChangeAvatar(int accountId, string newAvatar)
-        {
-            try
-            {
-                var result = _userService.ChangeAvatar(accountId, newAvatar);
-                return Ok(result);
-            }
-            catch
-            {
-                return BadRequest();
-            }
-        }
 
         [HttpGet("search")]
         public async Task<ActionResult> SearchInforByEmail (string email)

@@ -113,7 +113,8 @@ namespace be.Repositories.UserRepository
                     message = "Create A New Account Successfully",
                     status = 400,
                     data = user,
-                    token
+                    token, 
+                    user.RoleId,
                 };
             } else
             {
@@ -125,7 +126,8 @@ namespace be.Repositories.UserRepository
                     message = "Login success!",
                     status = 200,
                     data = user,
-                    token
+                    token,
+                    user.RoleId,
                 };
             }
         }
@@ -174,7 +176,8 @@ namespace be.Repositories.UserRepository
                     message = "Login success!",
                     status = 200,
                     data = user,
-                    token
+                    token,
+                    user.RoleId,
                 };
             }
             return null;
@@ -276,7 +279,7 @@ namespace be.Repositories.UserRepository
                 updateUser.BirthDay = user.BirthDay;
                 updateUser.Gender = user.Gender;
                 updateUser.SchoolName = user.SchoolName;
-                //updateUser.Avatar = user.Avatar;
+                updateUser.Avatar = user.Avatar;
                 _context.SaveChanges();
                 return new
                 {
@@ -366,6 +369,44 @@ namespace be.Repositories.UserRepository
         }
 
 
+
+
+        #endregion
+
+        #region - MANAGE USER
+        public object GetAllAccountUser()
+        {
+            var userList = _context.Accounts.Where(x => x.RoleId == 4);
+            if(userList == null)
+            {
+                return new
+                {
+                    message = "No Data to return",
+                    status = 400,
+                };
+            }
+            return new
+            {
+                message = "Get data successfully",
+                status = 200,
+                userList
+            };
+        }
+
+        public object UpdateAccountUser()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetAccountUserById()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object ChangeStatus(int accountId, string status)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
     }
 }
