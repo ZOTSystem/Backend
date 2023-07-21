@@ -126,9 +126,9 @@ namespace be.Repositories.PostRepository
             });
             return posts;
         }
-        public dynamic GetPostByStatusAndSubject(string? status, int? subjectId)
+        public dynamic GetPostByStatus(string? status)
         {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Status == status ||  p.SubjectId == subjectId).OrderBy(p => p.CreateDate).Select(p =>
+            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Status == status).OrderBy(p => p.CreateDate).Select(p =>
                  new
                  {
                      p.PostId,
@@ -141,12 +141,6 @@ namespace be.Repositories.PostRepository
                  });
             return posts;
         }
-
-/*        public dynamic GetPosts(int page, int pageSize)
-        {
-            int totalNumber = page * pageSize;
-            return GetAllPost().Skip(totalNumber).Take(page).ToList();
-        }*/
     } 
 }
 

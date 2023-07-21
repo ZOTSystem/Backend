@@ -11,7 +11,7 @@ namespace be.Services.PostService
         object ChangeStatusPost(int PostId, string status);
         void EditPost(Post post);
         dynamic GetPostBySubject(int subjectId);
-        dynamic GetPostByStatusAndSubject(string? status, int? subjectId);
+        dynamic GetPostByStatus(string? status);
 
     }
 }

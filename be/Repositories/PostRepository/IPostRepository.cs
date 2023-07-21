@@ -12,7 +12,7 @@ namespace be.Repositories.PostRepository
         object ChangeStatusPost(int PostId, string status);
         void EditPost(Post post);
         dynamic GetPostBySubject(int subjectId);
-        dynamic GetPostByStatusAndSubject(string? status,int? subjectId);
+        dynamic GetPostByStatus(string? status);
 /*        dynamic GetPosts(int page, int pageSize);*/
     }
 }

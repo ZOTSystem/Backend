@@ -42,9 +42,9 @@ namespace be.Services.PostService
         {
             return _postRepository.GetPostBySubject(subjectId);
         }
-        public dynamic GetPostByStatusAndSubject(string? status, int? subjectId)
+        public dynamic GetPostByStatus(string? status)
         {
-            return _postRepository.GetPostByStatusAndSubject(status, subjectId);
+            return _postRepository.GetPostByStatus(status);
         }
     }
 }
