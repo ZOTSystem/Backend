@@ -18,5 +18,12 @@ namespace be.Repositories.UserRepository
         public Task<object> SearchInforByEmail(string email);
         #endregion
 
+        #region - MANAGE USER
+        public object GetAllAccountUser();
+        public object UpdateAccountUser();
+        public object GetAccountUserById();
+        object ChangeStatus(int accountId, string status);
+
+        #endregion
     }
 }
