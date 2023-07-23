@@ -55,7 +55,7 @@ namespace be.Controllers
                 post.AccountId = addPost.AccountId;
                 post.PostText = addPost.PostText;
                 post.PostFile = addPost.PostFile;
-                post.Status = "Chờ phê duyệt";
+                post.Status = "Pending";
                 post.CreateDate = DateTime.Now;
                 var result = _postService.AddPost(post);
                 return Ok(result);
@@ -87,9 +87,9 @@ namespace be.Controllers
         }
 
         [HttpGet("FilterPostBySubject")]
-        public ActionResult GetPostBySubject(int subjectId)
+        public ActionResult GetPostBySubjectAndStatus(int subjectId, string status)
         {
-            dynamic posts = _postService.GetPostBySubject(subjectId);
+            dynamic posts = _postService.GetPostBySubjectAndStatus(subjectId, status);
             return Ok(posts);
         }
 

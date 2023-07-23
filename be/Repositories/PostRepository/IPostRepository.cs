@@ -11,7 +11,7 @@ namespace be.Repositories.PostRepository
         object AddPost(Post PostId);
         object ChangeStatusPost(int PostId, string status);
         void EditPost(Post post);
-        dynamic GetPostBySubject(int subjectId);
+        dynamic GetPostBySubjectAndStatus(int subjectId, string status);
         dynamic GetPostByStatus(string? status);
 /*        dynamic GetPosts(int page, int pageSize);*/
     }

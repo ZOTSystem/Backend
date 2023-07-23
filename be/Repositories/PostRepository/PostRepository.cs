@@ -66,7 +66,7 @@ namespace be.Repositories.PostRepository
         public async Task<object> GetAllPost()
         {
 
-            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).Where(p => p.Status == "Đã duyệt").OrderByDescending(p => p.CreateDate).Select(p =>
+            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).Where(p => p.Status == "Approved").OrderByDescending(p => p.CreateDate).Select(p =>
               new
               {
                   p.PostId,
@@ -109,9 +109,9 @@ namespace be.Repositories.PostRepository
                 throw;
             }
         }
-        public dynamic GetPostBySubject(int subjectId)
+        public dynamic GetPostBySubjectAndStatus(int subjectId, string status)
         {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectId == subjectId).Where(p => p.Status == "Đã duyệt").OrderByDescending(p => p.CreateDate).Select(p =>
+            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectId == subjectId && p.Status == status).OrderByDescending(p => p.CreateDate).Select(p =>
             new 
             {
                 p.PostId,
