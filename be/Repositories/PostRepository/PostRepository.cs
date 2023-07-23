@@ -109,23 +109,6 @@ namespace be.Repositories.PostRepository
                 throw;
             }
         }
-        public dynamic GetPostBySubjectAndStatus(int subjectId, string status)
-        {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectId == subjectId && p.Status == status).OrderByDescending(p => p.CreateDate).Select(p =>
-            new 
-            {
-                p.PostId,
-                p.SubjectId,
-                p.Subject.SubjectName,
-                p.AccountId,
-                p.Account.FullName,
-                p.PostText,
-                p.PostFile,
-                p.Status,
-                p.CreateDate
-            });
-            return posts;
-        }
 
         public dynamic GetPostByStatus(string? status)
         {
@@ -143,20 +126,26 @@ namespace be.Repositories.PostRepository
             return posts;
         }
 
-        public dynamic GetPostBySubject(int subjectId)
+        public dynamic GetPostBySubject(int subjectId, string status)
         {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectId == subjectId).OrderByDescending(p => p.CreateDate).Select(p =>
-                 new
-                 {
-                     p.PostId,
-                     p.Subject.SubjectName,
-                     p.Account.FullName,
-                     p.PostText,
-                     p.PostFile,
-                     p.Status,
-                     p.CreateDate
-                 });
-            return posts;
+            {
+                var posts = _context.Posts
+                    .Include(p => p.Subject)
+                    .Where(p => p.Subject.SubjectId == subjectId && p.Status == status)
+                    .OrderByDescending(p => p.CreateDate)
+                    .Select(p => new
+                    {
+                        p.PostId,
+                        p.Subject.SubjectName,
+                        p.Account.FullName,
+                        p.PostText,
+                        p.PostFile,
+                        p.Status,
+                        p.CreateDate
+                    });
+
+                return posts;
+            }
         }
     } 
 }

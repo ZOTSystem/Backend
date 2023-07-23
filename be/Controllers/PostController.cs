@@ -86,13 +86,6 @@ namespace be.Controllers
             return Ok();
         }
 
-        [HttpGet("FilterPostBySubjectAndStatus")]
-        public ActionResult GetPostBySubjectAndStatus(int subjectId, string status)
-        {
-            dynamic posts = _postService.GetPostBySubjectAndStatus(subjectId, status);
-            return Ok(posts);
-        }
-
         [HttpGet("GetPostByStatus")]
         public ActionResult GetPostByStatus(string? status)
         {
@@ -100,9 +93,13 @@ namespace be.Controllers
             return Ok(posts);
         }
         [HttpGet("GetPostBySubject")]
-        public ActionResult GetPostBySubject(int subjectId)
+        public async Task<ActionResult> GetPostBySubjectAsync(int subjectId, string? status)
         {
-            dynamic posts = _postService.GetPostBySubject(subjectId);
+            if (status == null)
+            {
+                return await GetAllPost();
+            }    
+            dynamic posts = _postService.GetPostBySubject(subjectId, status);
             return Ok(posts);
         }
     }
