@@ -13,6 +13,6 @@ namespace be.Repositories.PostRepository
         void EditPost(Post post);
         dynamic GetPostBySubjectAndStatus(int subjectId, string status);
         dynamic GetPostByStatus(string? status);
-/*        dynamic GetPosts(int page, int pageSize);*/
+        dynamic GetPostBySubject(int subjectId);
     }
 }

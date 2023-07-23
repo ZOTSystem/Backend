@@ -46,5 +46,10 @@ namespace be.Services.PostService
         {
             return _postRepository.GetPostByStatus(status);
         }
+
+        public dynamic GetPostBySubject(int subjectId)
+        {
+            return _postRepository.GetPostBySubject(subjectId);
+        }
     }
 }

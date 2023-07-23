@@ -126,9 +126,26 @@ namespace be.Repositories.PostRepository
             });
             return posts;
         }
+
         public dynamic GetPostByStatus(string? status)
         {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Status == status).OrderBy(p => p.CreateDate).Select(p =>
+            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Status == status).OrderByDescending(p => p.CreateDate).Select(p =>
+                 new
+                 {
+                     p.PostId,
+                     p.Subject.SubjectName,
+                     p.Account.FullName,
+                     p.PostText,
+                     p.PostFile,
+                     p.Status,
+                     p.CreateDate
+                 });
+            return posts;
+        }
+
+        public dynamic GetPostBySubject(int subjectId)
+        {
+            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Subject.SubjectId == subjectId).OrderByDescending(p => p.CreateDate).Select(p =>
                  new
                  {
                      p.PostId,

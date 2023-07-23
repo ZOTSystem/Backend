@@ -86,7 +86,7 @@ namespace be.Controllers
             return Ok();
         }
 
-        [HttpGet("FilterPostBySubject")]
+        [HttpGet("FilterPostBySubjectAndStatus")]
         public ActionResult GetPostBySubjectAndStatus(int subjectId, string status)
         {
             dynamic posts = _postService.GetPostBySubjectAndStatus(subjectId, status);
@@ -97,6 +97,12 @@ namespace be.Controllers
         public ActionResult GetPostByStatus(string? status)
         {
             dynamic posts = _postService.GetPostByStatus(status);
+            return Ok(posts);
+        }
+        [HttpGet("GetPostBySubject")]
+        public ActionResult GetPostBySubject(int subjectId)
+        {
+            dynamic posts = _postService.GetPostBySubject(subjectId);
             return Ok(posts);
         }
     }
