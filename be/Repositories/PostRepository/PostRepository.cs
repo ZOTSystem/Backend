@@ -66,7 +66,7 @@ namespace be.Repositories.PostRepository
         public async Task<object> GetAllPost()
         {
 
-            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).OrderByDescending(p => p.CreateDate).Select(p =>
+            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).Where(p => p.Status == "Approved").OrderByDescending(p => p.CreateDate).Select(p =>
               new
               {
                   p.PostId,

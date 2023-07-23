@@ -106,16 +106,18 @@ namespace be.Controllers
             {
                 return await GetAllPost();
             }    
-            if (status == null )
+            if (subjectId != null && status == null )
             {
                 return  GetPostBySubject(subjectId.GetValueOrDefault());
             }
-            else 
+            else if (subjectId == null && status !=null)
             {
                 return  GetPostByStatus(status);
             }
+            else { 
             var posts = _postService.GetPostBySubjectAndStatus(subjectId.GetValueOrDefault(), status);
             return Ok(posts);
+            }
         }
     }
 }
