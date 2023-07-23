@@ -89,17 +89,32 @@ namespace be.Controllers
         [HttpGet("GetPostByStatus")]
         public ActionResult GetPostByStatus(string? status)
         {
-            dynamic posts = _postService.GetPostByStatus(status);
+            var posts = _postService.GetPostByStatus(status);
             return Ok(posts);
         }
         [HttpGet("GetPostBySubject")]
-        public async Task<ActionResult> GetPostBySubjectAsync(int subjectId, string? status)
+        public ActionResult GetPostBySubject(int subjectId)
         {
-            if (status == null)
+            var posts = _postService.GetPostBySubject(subjectId);
+            return Ok(posts);
+        }
+
+        [HttpGet("GetPostBySubjectAndStatus")]
+        public async Task<ActionResult> GetPostBySubjectAndStatusAsync(int? subjectId, string? status)
+        {
+            if (subjectId == null && status == null)
             {
                 return await GetAllPost();
             }    
-            dynamic posts = _postService.GetPostBySubject(subjectId, status);
+            if (status == null )
+            {
+                return  GetPostBySubject(subjectId.GetValueOrDefault());
+            }
+            else 
+            {
+                return  GetPostByStatus(status);
+            }
+            var posts = _postService.GetPostBySubjectAndStatus(subjectId.GetValueOrDefault(), status);
             return Ok(posts);
         }
     }
