@@ -37,7 +37,6 @@ namespace be.Repositories.PostRepository
                     status = 400
                 };
             }
-
         }
 
         public object ChangeStatusPost(int postId, string status)
@@ -91,20 +90,39 @@ namespace be.Repositories.PostRepository
             return data;
         }
 
-        public void EditPost(Post post)
+        public object EditPost(EditPostDTO post)
         {
-            Post update = _context.Posts.Where(x => x.PostId == post.PostId).FirstOrDefault();
-            update.SubjectId = post.SubjectId;
-            update.PostText = post.PostText;
-            update.PostFile = post.PostFile;
             try
             {
-                _context.SaveChanges();
+                var editPost = _context.Posts.SingleOrDefault(x => x.PostId == post.PostId);
+                if (editPost == null)
+                {
+                    return new
+                    {
+                        message = "Post Not Found",
+                        status = 200,
+                    };
+                }
 
+                editPost.PostText = post.PostText;
+                editPost.PostFile = post.PostFile;
+                editPost.SubjectId = post.SubjectId;
+                editPost.Status = "Approved";
+                _context.SaveChanges();
+                return new
+                {
+                    message = "Post edited successfully",
+                    status = 200,
+                    editPost,
+                };
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch
             {
-                throw;
+                return new
+                {
+                    message = "Comment edited failed",
+                    status = 400,
+                };
             }
         }
 
@@ -129,7 +147,7 @@ namespace be.Repositories.PostRepository
             {
                 var posts = _context.Posts
                     .Include(p => p.Subject)
-                    .Where(p => p.Subject.SubjectId == subjectId)
+                    .Where(p => p.Subject.SubjectId == subjectId && p.Status == "Approved")
                     .OrderByDescending(p => p.CreateDate)
                     .Select(p => new
                     {

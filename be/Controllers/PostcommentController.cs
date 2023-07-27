@@ -28,7 +28,7 @@ namespace be.Controllers
                 postcomment.AccountId = addPostcomment.AccountId;
                 postcomment.Content = addPostcomment.Content;
                 postcomment.FileComment = addPostcomment.FileComment;
-                postcomment.Status = "Đã đăng";
+                postcomment.Status = "Uploaded";
                 postcomment.CommentDate = DateTime.Now;
                 var result = _postcommentService.AddPostcomment(postcomment);
                 
@@ -68,11 +68,15 @@ namespace be.Controllers
             }
         }
 
-        [HttpPut("EditPost")]
-        public ActionResult Editcomment(Postcomment postcomment)
-        {      
-            _postcommentService.EditComment(postcomment);
-            return Ok();
+        [HttpPost("EditComment")]
+        public async Task<ActionResult> EditComment(EditCommentDTO postcomment)
+        {
+            try
+            {
+                var result = _postcommentService.EditComment(postcomment);
+                return Ok(result);
+            }
+            catch { return BadRequest(); }
         }
     }
 }

@@ -8,6 +8,6 @@ namespace be.Repositories.PostcommentRepository
         object AddPostcomment(Postcomment postcomment);
         dynamic GetCommentByPost(int postId);
         object ChangeStatusPostcomment(int postCommentId, string status);
-        void EditComment(Postcomment postcomment);
+        object EditComment(EditCommentDTO postcomment);
     }
 }

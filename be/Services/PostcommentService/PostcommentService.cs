@@ -28,9 +28,10 @@ namespace be.Services.PostcommentService
             return _postcommentRepository.ChangeStatusPostcomment(postcommentId, status);
         }
 
-        public void EditComment(Postcomment postcomment)
+        public object EditComment(EditCommentDTO postcomment)
         {
-            _postcommentRepository.EditComment(postcomment);
+            return _postcommentRepository.EditComment(postcomment);
         }
+
     }
 }

@@ -34,9 +34,9 @@ namespace be.Services.PostService
             return _postRepository.GetPostById(postId);
         }
 
-        public void EditPost(Post post)
+        public object EditPost(EditPostDTO post)
         {
-            _postRepository.EditPost(post);
+            return _postRepository.EditPost(post);
         }
 
         public dynamic GetPostByStatus(string? status)

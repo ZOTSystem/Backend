@@ -39,7 +39,7 @@ namespace be.Repositories.PostcommentRepository
         }
         public dynamic GetCommentByPost(int postId)
         {
-            var postcomments = _context.Postcomments.Include(p => p.Post).Where(p => p.PostId == postId).Select(p =>
+            var postcomments = _context.Postcomments.Include(p => p.Post).Where(p => p.PostId == postId).OrderByDescending(p => p.CommentDate).Select(p =>
             new
             {
                 p.PostCommentId,
@@ -76,21 +76,39 @@ namespace be.Repositories.PostcommentRepository
                 };
             }
         }
-        public void EditComment(Postcomment postcomment)
+        public object EditComment(EditCommentDTO postcomment)
         {
-            var updatePostcomment = _context.Postcomments.SingleOrDefault(x => x.PostCommentId == postcomment.PostCommentId);
-            updatePostcomment.Content = postcomment.Content;
-            updatePostcomment.FileComment = postcomment.FileComment;
-
             try
             {
+                var editComment = _context.Postcomments.SingleOrDefault(x => x.PostCommentId == postcomment.PostCommentId);
+                if (editComment == null)
+                {
+                    return new
+                    {
+                        message = "Comment Not Found",
+                        status = 200,
+                    };
+                }
+
+                editComment.Content = postcomment.Content;
+                editComment.FileComment = postcomment.FileComment;
+                editComment.Status = "Uploaded";
                 _context.SaveChanges();
+                return new
+                {
+                    message = "Comment edited successfully",
+                    status = 200,
+                    editComment,
+                };
             }
-            catch (DbUpdateConcurrencyException)
+            catch
             {
-                throw;
+                return new
+                {
+                    message = "Comment edited failed",
+                    status = 400,
+                };
             }
         }
-
     } 
 }

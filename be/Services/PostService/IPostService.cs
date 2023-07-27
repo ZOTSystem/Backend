@@ -9,7 +9,7 @@ namespace be.Services.PostService
         object GetPostById(int PostId);
         object AddPost(Post PostId);
         object ChangeStatusPost(int PostId, string status);
-        void EditPost(Post post);
+        object EditPost(EditPostDTO post);
         dynamic GetPostByStatus(string? status);
         dynamic GetPostBySubject(int subjectId);
         dynamic GetPostBySubjectAndStatus(int subjectId, string status);

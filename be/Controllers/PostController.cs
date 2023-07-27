@@ -79,11 +79,15 @@ namespace be.Controllers
             }
         }
 
-        [HttpPut("EditPost")]
-        public ActionResult EditPost(Post post)
-        {      
-            _postService.EditPost(post);
-            return Ok();
+        [HttpPost("EditPost")]
+        public async Task<ActionResult> EditPost(EditPostDTO post)
+        {
+            try
+            {
+                var result = _postService.EditPost(post);
+                return Ok(result);
+            }
+            catch { return BadRequest(); }
         }
 
         [HttpGet("GetPostByStatus")]
