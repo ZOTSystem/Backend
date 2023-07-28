@@ -39,18 +39,18 @@ namespace be.Services.PostService
             return _postRepository.EditPost(post);
         }
 
-        public dynamic GetPostByStatus(string? status)
+        public dynamic GetPostByStatus(string? status, int accountId)
         {
-            return _postRepository.GetPostByStatus(status);
+            return _postRepository.GetPostByStatus(status, accountId);
         }
 
         public dynamic GetPostBySubject(int subjectId)
         {
             return _postRepository.GetPostBySubject(subjectId);
         }
-        public dynamic GetPostBySubjectAndStatus(int subjectId ,string status)
+        public dynamic GetPostBySubjectAndStatus(int subjectId ,string status, int accountId)
         {
-            return _postRepository.GetPostBySubjectAndStatus(subjectId,status);
+            return _postRepository.GetPostBySubjectAndStatus(subjectId, status, accountId);
         }
         public object CountComment(int postId)
         {
@@ -71,5 +71,10 @@ namespace be.Services.PostService
             var result = _postRepository.UnlikePost(postLikeId);
             return result;
         }
-}
+        public object DeletePost(int postId)
+        {
+            var result = _postRepository.DeletePost(postId);
+            return result;
+        }
+    }
 }

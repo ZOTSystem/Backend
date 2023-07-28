@@ -64,8 +64,14 @@ namespace be.Repositories.PostRepository
         }
         public async Task<object> GetAllPost()
         {
-
-            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).Where(p => p.Status == "Approved").OrderByDescending(p => p.CreateDate).Select(p =>
+            var data = _context.Posts
+                .Include(p => p.Subject)
+                .Include(p => p.Account)
+                .Include(p => p.Postcomments)
+                .Include(p => p.Postlikes)
+                .Where(p => p.Status == "Approved")
+                .OrderByDescending(p => p.CreateDate)
+                .Select(p =>
               new
               {
                   p.PostId,
@@ -76,8 +82,10 @@ namespace be.Repositories.PostRepository
                   p.PostText,
                   p.PostFile,
                   p.Status,
-                  p.CreateDate
-              });
+                  p.CreateDate,
+                  countComment = p.Postcomments.Count(),
+                  countLike = p.Postlikes.Count()
+              }) ;   
             return data;
         }
         public object GetPostById(int postId)
@@ -103,7 +111,6 @@ namespace be.Repositories.PostRepository
                         status = 200,
                     };
                 }
-
                 editPost.PostText = post.PostText;
                 editPost.PostFile = post.PostFile;
                 editPost.SubjectId = post.SubjectId;
@@ -126,9 +133,15 @@ namespace be.Repositories.PostRepository
             }
         }
 
-        public dynamic GetPostByStatus(string? status)
+        public dynamic GetPostByStatus(string? status, int accountId)
         {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Status == status).OrderByDescending(p => p.CreateDate).Select(p =>
+            var posts = _context.Posts
+                .Include(p => p.Subject)
+                .Include(p => p.Postcomments)
+                .Include(p => p.Postlikes)
+                .Where(p => p.Status == status)
+                .OrderByDescending(p => p.CreateDate)
+                .Select(p =>
                  new
                  {
                      p.PostId,
@@ -137,8 +150,10 @@ namespace be.Repositories.PostRepository
                      p.PostText,
                      p.PostFile,
                      p.Status,
-                     p.CreateDate
-                 });
+                     p.CreateDate,
+                     countComment = p.Postcomments.Count(),
+                     countLike = p.Postlikes.Count()
+                 }); ;
             return posts;
         }
 
@@ -147,6 +162,8 @@ namespace be.Repositories.PostRepository
             {
                 var posts = _context.Posts
                     .Include(p => p.Subject)
+                    .Include(p => p.Postcomments)
+                    .Include(p => p.Postlikes)
                     .Where(p => p.Subject.SubjectId == subjectId && p.Status == "Approved")
                     .OrderByDescending(p => p.CreateDate)
                     .Select(p => new
@@ -157,17 +174,21 @@ namespace be.Repositories.PostRepository
                         p.PostText,
                         p.PostFile,
                         p.Status,
-                        p.CreateDate
+                        p.CreateDate,
+                        countComment = p.Postcomments.Count(),
+                        countLike = p.Postlikes.Count()
                     });
 
                 return posts;
             }
         }
-        public dynamic GetPostBySubjectAndStatus(int subjectId, string status)
+        public dynamic GetPostBySubjectAndStatus(int subjectId, string status, int accountId)
         {
             {
                 var posts = _context.Posts
                     .Include(p => p.Subject)
+                    .Include(p => p.Postcomments)
+                    .Include(p => p.Postlikes)
                     .Where(p => p.Subject.SubjectId == subjectId && p.Status == status)
                     .OrderByDescending(p => p.CreateDate)
                     .Select(p => new
@@ -178,7 +199,9 @@ namespace be.Repositories.PostRepository
                         p.PostText,
                         p.PostFile,
                         p.Status,
-                        p.CreateDate
+                        p.CreateDate,
+                        countComment = p.Postcomments.Count(),
+                        countLike = p.Postlikes.Count()
                     });
                 return posts;
             }
@@ -199,7 +222,6 @@ namespace be.Repositories.PostRepository
                 }
                 return new
                 {
-                    status = 200,
                     countComment,
                 };
             }
@@ -291,6 +313,28 @@ namespace be.Repositories.PostRepository
                 {
                     status = 200,
                     message = "Unlike post successfully!"
+                };
+            }
+        }
+        public object DeletePost(int postId)
+        {
+            var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+            if (post == null)
+            {
+                return new
+                {
+                    message = "Post does not exist in the database!",
+                    status = 400
+                };
+            }
+            else
+            {
+                _context.Posts.Remove(post);
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    message = "Delete post successfully!"
                 };
             }
         }

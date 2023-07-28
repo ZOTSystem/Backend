@@ -24,8 +24,10 @@ namespace be.Controllers
             try
             {
                 var data = await _postService.GetAllPost();
+                
                 return Ok(data);
-            } catch
+            }
+            catch
             {
                 return BadRequest();
             }
@@ -91,9 +93,9 @@ namespace be.Controllers
         }
 
         [HttpGet("GetPostByStatus")]
-        public ActionResult GetPostByStatus(string? status)
+        public ActionResult GetPostByStatus(string? status, int accountId)
         {
-            var posts = _postService.GetPostByStatus(status);
+            var posts = _postService.GetPostByStatus(status, accountId);
             return Ok(posts);
         }
         [HttpGet("GetPostBySubject")]
@@ -104,7 +106,7 @@ namespace be.Controllers
         }
 
         [HttpGet("GetPostBySubjectAndStatus")]
-        public async Task<ActionResult> GetPostBySubjectAndStatusAsync(int? subjectId, string? status)
+        public async Task<ActionResult> GetPostBySubjectAndStatusAsync(int? subjectId, string? status, int accountId)
         {
             if (subjectId == null && status == null)
             {
@@ -116,10 +118,10 @@ namespace be.Controllers
             }
             else if (subjectId == null && status !=null)
             {
-                return  GetPostByStatus(status);
+                return  GetPostByStatus(status, accountId);
             }
             else { 
-            var posts = _postService.GetPostBySubjectAndStatus(subjectId.GetValueOrDefault(), status);
+            var posts = _postService.GetPostBySubjectAndStatus(subjectId.GetValueOrDefault(), status, accountId);
             return Ok(posts);
             }
         }
@@ -170,6 +172,20 @@ namespace be.Controllers
             try
             {
                 var result = _postService.UnlikePost(postLikeId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("DeletePost")]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            try
+            {
+                var result = _postService.DeletePost(postId);
                 return Ok(result);
             }
             catch
