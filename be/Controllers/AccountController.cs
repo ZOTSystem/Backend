@@ -2,6 +2,7 @@
 using be.Services.ModService;
 using Microsoft.AspNetCore.Mvc;
 using be.DTOs;
+using be.Services.UserService;
 
 namespace be.Controllers
 {
@@ -11,12 +12,16 @@ namespace be.Controllers
     {
         private readonly IModService _modService;
         private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
-        public AccountController(IConfiguration configuration, IModService modService)
+        public AccountController(IConfiguration configuration, IModService modService, IUserService userService)
         {
             _modService = modService;
             _configuration = configuration;
+            _userService = userService;
         }
+
+        #region - Manage Mod
 
         [HttpGet("getAllMod")]
         public async Task<ActionResult> GetAllMod()
@@ -106,5 +111,36 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+
+        #endregion
+
+        #region - Manage User
+
+        [HttpGet("getAllAccountUser")]
+        public async Task<ActionResult> GetAllAccountUser()
+        {
+            try
+            {
+                var result = _userService.GetAllAccountUser();
+                return Ok(result);
+            }
+            catch { return BadRequest(); }
+        }
+
+        [HttpPost("UpdateAccountUser")]
+        public async Task<ActionResult> UpdateAccountUser(AccountDTO user)
+        {
+            try
+            {
+                var result = _userService.UpdateAccountUser(user);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();    
+            }
+        }
+
+        #endregion
     }
 }

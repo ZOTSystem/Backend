@@ -3,13 +3,19 @@ using Microsoft.Identity.Client;
 
 namespace be.Repositories.QuestionRepository
 {
-    public class QuestionRepository:IQuestionRepository
+    public class QuestionRepository : IQuestionRepository
     {
         private readonly DbZotsystemContext _context;
 
         public QuestionRepository()
         {
             _context = new DbZotsystemContext();
+        }
+
+        public void AddQuestionByExcel(Question question)
+        {
+            _context.Questions.Add(question);   
+            _context.SaveChanges();
         }
 
         public async Task<object> GetQuestionByTopicId(int topicId)

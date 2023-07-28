@@ -1,4 +1,5 @@
-﻿using be.Repositories.QuestionRepository;
+﻿using be.Models;
+using be.Repositories.QuestionRepository;
 using be.Repositories.TopicRepository;
 
 namespace be.Services.QuestionService
@@ -9,6 +10,11 @@ namespace be.Services.QuestionService
         public QuestionService()
         {
             _questionRepository = new QuestionRepository();
+        }
+
+        public void AddQuestionByExcel(Question question)
+        {
+            _questionRepository.AddQuestionByExcel(question);
         }
 
         public async Task<object> GetQuestionByTopicId(int topicId)

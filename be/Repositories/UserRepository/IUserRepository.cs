@@ -20,9 +20,11 @@ namespace be.Repositories.UserRepository
 
         #region - MANAGE USER
         public object GetAllAccountUser();
-        public object UpdateAccountUser();
+        public object UpdateAccountUser(AccountDTO user);
         public object GetAccountUserById();
-        object ChangeStatus(int accountId, string status);
+        object ChangeStatusUser(int accountId, string status);
+
+        object WeekLyActivity(int accountId);
 
         #endregion
     }

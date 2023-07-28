@@ -27,6 +27,20 @@ namespace be.Controllers
                 return Ok(data);
             }
             catch
+            {   
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getAllTopicOfExam")]
+        public async Task<ActionResult> GetAllTopicOfExam()
+        {
+            try
+            {
+                var data = _topicService.GetAllTopcOfExam();
+                return Ok(data);
+            }
+            catch
             {
                 return BadRequest();
             }

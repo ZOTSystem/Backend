@@ -19,6 +19,10 @@ using be.Services.TopicService;
 using be.Repositories.TopicRepository;
 using be.Repositories.QuestionRepository;
 using be.Services.QuestionService;
+using be.Repositories.StatictisRepository;
+using be.Services.StatictisService;
+using be.Repositories.NewsRepository;
+using be.Services.NewsService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -66,6 +70,12 @@ services.AddScoped<IQuestionService, QuestionService>();
 
 services.AddScoped<ITestDetailRepository, TestDetailRepository>();
 services.AddScoped<ITestDetailService, TestDetailService>();
+
+services.AddScoped<IStatictisRepository, StatictisRepository>();
+services.AddScoped<IStatictisService, StatictisService>();
+
+services.AddScoped<INewsRepository, NewsRepository>();
+services.AddScoped<INewsService, NewsService>();
 
 var app = builder.Build();
 

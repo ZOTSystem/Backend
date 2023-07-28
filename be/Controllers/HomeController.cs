@@ -138,6 +138,21 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("weeklyActivity")]
+        public async Task<ActionResult> WeeklyActivity(int accountId)
+        {
+            try
+            {
+                var result = _userService.WeekLyActivity(accountId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
         #endregion
 
 

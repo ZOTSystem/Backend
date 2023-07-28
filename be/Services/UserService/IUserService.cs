@@ -20,10 +20,13 @@ namespace be.Services.UserService
 
         #region - MANAGE USER
         public object GetAllAccountUser();
-        public object UpdateAccountUser();
+        public object UpdateAccountUser(AccountDTO user);
         public object GetAccountUserById();
-        object ChangeStatus(int accountId, string status);
+        object ChangeStatusUser(int accountId, string status);
 
         #endregion
+
+        object WeekLyActivity(int accountId);
+
     }
 }

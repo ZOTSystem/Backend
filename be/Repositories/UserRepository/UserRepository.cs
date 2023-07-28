@@ -5,6 +5,7 @@ using Microsoft.Identity.Client;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Win32;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.IdentityModel.Tokens.Jwt;
 using System.Runtime.InteropServices;
 using System.Security.Claims;
@@ -376,7 +377,7 @@ namespace be.Repositories.UserRepository
         #region - MANAGE USER
         public object GetAllAccountUser()
         {
-            var userList = _context.Accounts.Where(x => x.RoleId == 4);
+            var userList = _context.Accounts.Where(x => x.RoleId == 4).OrderByDescending(x => x.AccountId);
             if(userList == null)
             {
                 return new
@@ -393,9 +394,34 @@ namespace be.Repositories.UserRepository
             };
         }
 
-        public object UpdateAccountUser()
+        public object UpdateAccountUser(AccountDTO user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var updateUser = _context.Accounts.SingleOrDefault(x => x.AccountId == user.AccountId);
+                updateUser.FullName = user.FullName;
+                updateUser.Phone = user.Phone;
+                updateUser.Gender = user.Gender;
+                updateUser.BirthDay = user.BirthDay;
+                updateUser.SchoolName = user.SchoolName;
+                _context.SaveChanges();
+                return new
+                {
+                    message = "Update Successfully",
+                    status = 200,
+                    data = updateUser,
+                };
+            }
+            catch
+            {
+                return new
+                {
+                    message = "Update Failly",
+                    status = 400,
+                };
+            }
+            
+            
         }
 
         public object GetAccountUserById()
@@ -403,10 +429,79 @@ namespace be.Repositories.UserRepository
             throw new NotImplementedException();
         }
 
-        public object ChangeStatus(int accountId, string status)
+        public object ChangeStatusUser(int accountId, string status)
         {
-            throw new NotImplementedException();
+            var updateStatus = _context.Accounts.SingleOrDefault(x => x.AccountId == accountId);
+            if (updateStatus == null)
+            {
+                return new
+                {
+                    message = "The user doesn't exist in database",
+                    status = 400
+                };
+            }
+            else
+            {
+                updateStatus.Status = status;
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    data = updateStatus,
+                    message = "Update successfully!"
+                };
+            }
         }
+
+        public object WeekLyActivity(int accountId)
+        {
+            try
+            {
+                //DateTime inputDate = DateTime.Now;
+                DateTime inputDate = new DateTime(2023, 7, 23);
+                DateTime sunday = GetSundayOfWeek(inputDate);
+                DateTime monday = sunday.AddDays(-6);
+                var testDetailByAccountId = _context.Testdetails.Where(x => x.AccountId == accountId); 
+                var testCount = 0;
+                float totalScore = 0;
+                foreach (var test in testDetailByAccountId)
+                {
+                    if(test.CreateDate >= monday && test.CreateDate <= sunday)
+                    {
+                        totalScore += (float)test.Score;
+                        ++testCount;
+                    }
+                }
+                var avarage = Math.Round((totalScore / testCount), 1);
+                return new
+                {
+                    message = "Get Successfully",
+                    status = 200,
+                    countTest = testCount,
+                    totalScore = avarage,
+                };
+            }
+            catch
+            {
+                return new
+                {
+                    message = "Get Failly",
+                    status = 400,
+                };
+            }
+           
+        }
+
+        public DateTime GetSundayOfWeek(DateTime date)
+        {
+            int daysUntilSunday = ((int)DayOfWeek.Sunday - (int)date.DayOfWeek + 7) % 7;
+            return date.AddDays(daysUntilSunday);
+        }
+
+  
+
         #endregion
+
+
     }
 }
