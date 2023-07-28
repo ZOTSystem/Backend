@@ -140,5 +140,32 @@ namespace be.Repositories.TestDetailRepository
                 levelOfUnderStanding = underStading,
             };
         }
+
+        public object AddTestDetail(int accountId)
+        {
+            try
+            {
+                Testdetail testdetail = new Testdetail();
+                testdetail.AccountId = accountId;
+                testdetail.Score = 0;
+                testdetail.Submitted = false;
+                testdetail.CreateDate = DateTime.Now;
+                _context.Add(testdetail);
+                _context.SaveChanges();
+                return new
+                {
+                    testdetail,
+                    status = 200
+                };
+            }
+            catch
+            {
+                return new
+                {
+                    status = 400
+                };
+            }
+
+        }
     }
 }

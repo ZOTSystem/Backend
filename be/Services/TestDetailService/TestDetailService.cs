@@ -26,5 +26,10 @@ namespace be.Services.TestDetailService
         {
             return _testDetailRepository.StatictisUnderstanding(accountId, subjectName);
         }
+        public object AddTestDetail(int accountId)
+        {
+            var result = _testDetailRepository.AddTestDetail(accountId);
+            return result;
+        }
     }
 }

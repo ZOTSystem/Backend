@@ -8,5 +8,6 @@ namespace be.Repositories.TestDetailRepository
         public object GetAllSubject();
 
         public object StatictisUnderstanding(int accountId, string subjectName);
+        object AddTestDetail(int accountId);
     }
 }

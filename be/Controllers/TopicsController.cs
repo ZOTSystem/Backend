@@ -19,15 +19,15 @@ namespace be.Controllers
         }
 
         [HttpGet("getTopicByGrade")]
-        public async Task<ActionResult> GetTopicByGrade(int grade, int subjectId)
+        public async Task<ActionResult> GetTopicByGrade(int? grade, int subjectId, int topicType, int accountId)
         {
             try
             {
-                var data = await _topicService.GetTopicByGrade(grade, subjectId);
+                var data = await _topicService.GetTopicByGrade(grade, subjectId, topicType, accountId);
                 return Ok(data);
             }
             catch
-            {   
+            {
                 return BadRequest();
             }
         }
