@@ -13,6 +13,10 @@ namespace be.Services.PostService
         dynamic GetPostByStatus(string? status);
         dynamic GetPostBySubject(int subjectId);
         dynamic GetPostBySubjectAndStatus(int subjectId, string status);
+        object CountComment(int postId);
+        object CountLikedNumberByPost(int postId);
+        object LikePost(int postId, int accountId);
+        object UnlikePost(int postLikeId);
 
     }
 }

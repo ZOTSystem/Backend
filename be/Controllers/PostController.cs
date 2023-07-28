@@ -123,5 +123,59 @@ namespace be.Controllers
             return Ok(posts);
             }
         }
+        [HttpGet("CountCommentByPost")]
+        public  async Task<ActionResult> CountComment(int postId )
+        {
+            try
+            {
+                var result = _postService.CountComment(postId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("CountLikedNumberByPost")]
+        public async Task<ActionResult> CountLikedNumberByPost(int postId)
+        {
+            try
+            {
+                var result = _postService.CountLikedNumberByPost(postId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("LikePost")]
+        public async Task<ActionResult> LikePost(int postId, int accountId)
+        {
+            try
+            {
+                var result = _postService.LikePost(postId, accountId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("UnlikePost")]
+        public async Task<IActionResult> UnlikePost(int postLikeId)
+        {
+            try
+            {
+                var result = _postService.UnlikePost(postLikeId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

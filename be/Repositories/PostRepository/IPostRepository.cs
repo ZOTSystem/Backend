@@ -14,5 +14,9 @@ namespace be.Repositories.PostRepository
         dynamic GetPostByStatus(string? status);
         dynamic GetPostBySubject(int subjectId);
         dynamic GetPostBySubjectAndStatus(int subjectId, string status);
+        object CountComment(int PostId);
+        object CountLikedNumberByPost(int postId);
+        object LikePost(int postId, int accountId);
+        object UnlikePost(int postLikeId);
     }
 }

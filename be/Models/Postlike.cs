@@ -9,7 +9,7 @@ public partial class Postlike
 
     public int? AccountId { get; set; }
 
-    public int? PostId { get; set; }
+    public int PostId { get; set; }
 
     public DateTime? LikeDate { get; set; }
 

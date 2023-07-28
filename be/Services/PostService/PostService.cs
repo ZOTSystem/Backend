@@ -52,5 +52,24 @@ namespace be.Services.PostService
         {
             return _postRepository.GetPostBySubjectAndStatus(subjectId,status);
         }
-    }
+        public object CountComment(int postId)
+        {
+            return _postRepository.CountComment(postId);
+        }
+        public object CountLikedNumberByPost(int postId)
+        {
+            var result = _postRepository.CountLikedNumberByPost(postId);
+            return result;
+        }
+        public object LikePost(int postId, int accountId)
+         {
+            var result = _postRepository.LikePost(postId, accountId);
+            return result;
+        }
+        public object UnlikePost(int postLikeId)
+        {
+            var result = _postRepository.UnlikePost(postLikeId);
+            return result;
+        }
+}
 }

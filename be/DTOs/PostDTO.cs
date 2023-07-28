@@ -14,6 +14,5 @@
         public string? Content { get; set; }
         public string? FileComment { get; set; }
         public DateTime? CommentDate { get; set; }
-
     }
 }

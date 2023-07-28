@@ -79,7 +79,7 @@ namespace be.Repositories.PostRepository
                   p.CreateDate
               });
             return data;
-    }
+        }
         public object GetPostById(int postId)
         {
             var data = _context.Posts.SingleOrDefault(x => x.PostId == postId);
@@ -163,7 +163,7 @@ namespace be.Repositories.PostRepository
                 return posts;
             }
         }
-    public dynamic GetPostBySubjectAndStatus(int subjectId, string status)
+        public dynamic GetPostBySubjectAndStatus(int subjectId, string status)
         {
             {
                 var posts = _context.Posts
@@ -183,7 +183,118 @@ namespace be.Repositories.PostRepository
                 return posts;
             }
         }
-    } 
+        public object CountComment(int postId)
+        {
+            try
+            {
+                var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+                var countComment = _context.Postcomments.Where(x => x.PostId == postId).Count();
+                if (post == null)
+                {
+                    return new
+                    {
+                        message = "Cannot find this post",
+                        status = 200,
+                    };
+                }
+                return new
+                {
+                    status = 200,
+                    countComment,
+                };
+            }
+            catch
+            {
+                return new
+                {
+                    status = 400,
+                };
+            }
+        }
+
+        public object CountLikedNumberByPost(int postId)
+        {
+            try
+            {
+                var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+                var countLiked = _context.Postlikes.Where(x => x.PostId == postId).Count();
+                if (post == null)
+                {
+                    return new
+                    {
+                        message = "Cannot find this post",
+                        status = 200,
+                    };
+                }
+                return new
+                {
+                    status = 200,
+                    countLiked,
+                };
+            }
+            catch
+            {
+                return new
+                {
+                    status = 400,
+                };
+            }
+        }
+
+        public object LikePost(int postId, int accountId)
+        {
+            var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+            if (post == null)
+            {
+                return new
+                {
+                    message = "The post doesn't exist in the database",
+                    status = 400
+                };
+            }
+            else
+            {
+                var postlike = new Postlike
+                {
+                    AccountId = accountId,
+                    PostId = postId,
+                    LikeDate = DateTime.Now
+                };
+
+                _context.Postlikes.Add(postlike);
+                _context.SaveChanges();
+
+                return new
+                {
+                    status = 200,
+                    postlike,
+                    message = "Post liked"
+                };
+            }
+        }
+        public object UnlikePost(int postLikeId)
+        {
+            var postUnlike = _context.Postlikes.SingleOrDefault(x => x.PostLikeId == postLikeId);
+            if (postUnlike == null)
+            {
+                return new
+                {
+                    message = "PostLikeId does not exist in the database!",
+                    status = 400
+                };
+            }
+            else
+            {
+                _context.Postlikes.Remove(postUnlike);
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    message = "Unlike post successfully!"
+                };
+            }
+        }
+    }
 }
 
 
