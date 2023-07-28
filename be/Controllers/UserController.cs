@@ -63,14 +63,19 @@ namespace be.Controllers
             catch { return BadRequest(); }
         }
 
-        [HttpGet("getAllAccountUser")]
-        public async Task<ActionResult> GetAllAccountUser()
+        [HttpPost("ChangeStatusUser")]
+        public async Task<ActionResult> ChangeStatusUser(int accountId, string newStatus)
         {
             try
             {
-                var result = _userService.GetAllAccountUser();
+                var result = _userService.ChangeStatusUser(accountId, newStatus);
                 return Ok(result);
-            } catch { return BadRequest(); }
-        }
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }   
+       
     }
 }

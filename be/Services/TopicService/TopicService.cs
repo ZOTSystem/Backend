@@ -11,6 +11,11 @@ namespace be.Services.TopicService
             _topicRepository = new TopicRepository();
         }
 
+        public object GetAllTopcOfExam()
+        {
+            return _topicRepository.GetAllTopcOfExam();
+        }
+
         public async Task<object> GetTopicByGrade(int grade, int subjectId)
         {
             return await _topicRepository.GetTopicByGrade(grade, subjectId);

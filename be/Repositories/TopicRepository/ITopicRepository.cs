@@ -5,5 +5,6 @@ namespace be.Repositories.TopicRepository
     public interface ITopicRepository
     {
         Task<object> GetTopicByGrade(int grade, int subject);
+        object GetAllTopcOfExam();
     }
 }

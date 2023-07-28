@@ -1,4 +1,5 @@
-﻿using be.Services.QuestionService;
+﻿using be.Models;
+using be.Services.QuestionService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace be.Controllers
@@ -29,5 +30,25 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost("addQuestionByExcel")]
+        public async Task<ActionResult> AddQuestionByExcel([FromBody] IList<IList<string>> record)
+        {
+            Question question = null;
+            for(int i = 1; i < record.Count; i++) 
+            {
+                question = new Question();
+                question.SubjectId = Convert.ToInt32(record[i][0]);
+
+
+                await Task.Run(() => _questionService.AddQuestionByExcel(question));
+            }
+            return Ok(new
+            {
+                message = "Add Sucessfully",
+                status = 200,
+            });
+        }
+
     }
 }

@@ -3,5 +3,7 @@
     public interface ITopicService
     {
         Task<object> GetTopicByGrade(int grade, int subjectId);
+        object GetAllTopcOfExam();
+
     }
 }

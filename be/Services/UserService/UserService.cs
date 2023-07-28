@@ -69,9 +69,9 @@ namespace be.Services.UserService
             return _userRepository.GetAllAccountUser();
         }
 
-        public object UpdateAccountUser()
+        public object UpdateAccountUser(AccountDTO user)
         {
-            throw new NotImplementedException();
+            return _userRepository.UpdateAccountUser(user);
         }
 
         public object GetAccountUserById()
@@ -79,9 +79,14 @@ namespace be.Services.UserService
             throw new NotImplementedException();
         }
 
-        public object ChangeStatus(int accountId, string status)
+        public object ChangeStatusUser(int accountId, string status)
         {
-            throw new NotImplementedException();
+            return _userRepository.ChangeStatusUser(accountId, status); 
+        }
+
+        public object WeekLyActivity(int accountId)
+        {
+            return _userRepository.WeekLyActivity(accountId);
         }
         #endregion
     }

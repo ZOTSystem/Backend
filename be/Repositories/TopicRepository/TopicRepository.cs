@@ -5,13 +5,32 @@ using System.Diagnostics;
 
 namespace be.Repositories.TopicRepository
 {
-    public class TopicRepository:ITopicRepository
+    public class TopicRepository : ITopicRepository
     {
         private readonly DbZotsystemContext _context;
 
         public TopicRepository()
         {
             _context = new DbZotsystemContext();
+        }
+
+        public object GetAllTopcOfExam()
+        {
+            var data = _context.Topics.Where(x => x.TopicType != 1);
+            if(data == null)
+            {
+                return new
+                {
+                    message = "No Data to return",
+                    status = 400,
+                };
+            }
+            return new
+            {
+                message = "Get Data Successfully",
+                status = 200,
+                data,
+            };
         }
 
         public async Task<object> GetTopicByGrade(int grade, int subjectId)
