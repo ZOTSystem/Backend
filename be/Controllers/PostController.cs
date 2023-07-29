@@ -95,13 +95,20 @@ namespace be.Controllers
         [HttpGet("GetPostByStatus")]
         public ActionResult GetPostByStatus(string? status, int accountId)
         {
-            var posts = _postService.GetPostByStatus(status, accountId);
-            return Ok(posts);
+            var result = _postService.GetPostByStatus(status, accountId);
+            return Ok(result);
         }
         [HttpGet("GetPostBySubject")]
-        public ActionResult GetPostBySubject(int subjectId)
+        public ActionResult GetPostBySubject(int subjectId, int accountId)
         {
-            var posts = _postService.GetPostBySubject(subjectId);
+            var result = _postService.GetPostBySubject(subjectId, accountId);
+            return Ok(result);
+        }
+
+        [HttpGet("GetApprovedPostBySubject")]
+        public ActionResult GetApprovedPostBySubject(int subjectId)
+        {
+            var posts = _postService.GetApprovedPostBySubject(subjectId);
             return Ok(posts);
         }
 
@@ -114,7 +121,7 @@ namespace be.Controllers
             }    
             if (subjectId != null && status == null )
             {
-                return  GetPostBySubject(subjectId.GetValueOrDefault());
+                return  GetPostBySubject(subjectId.GetValueOrDefault(), accountId);
             }
             else if (subjectId == null && status !=null)
             {
@@ -125,6 +132,7 @@ namespace be.Controllers
             return Ok(posts);
             }
         }
+
         [HttpGet("CountCommentByPost")]
         public  async Task<ActionResult> CountComment(int postId )
         {
@@ -180,12 +188,25 @@ namespace be.Controllers
             }
         }
 
-        [HttpDelete("DeletePost")]
+        [HttpPost("DeletePost")]
         public async Task<IActionResult> DeletePost(int postId)
         {
             try
             {
                 var result = _postService.DeletePost(postId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("RejectPost")]
+        public async Task<IActionResult> RejectPost(int postId)
+        {
+            try
+            {
+                var result = _postService.RejectPost(postId);
                 return Ok(result);
             }
             catch

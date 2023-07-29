@@ -9,5 +9,6 @@ namespace be.Repositories.PostcommentRepository
         dynamic GetCommentByPost(int postId);
         object ChangeStatusPostcomment(int postCommentId, string status);
         object EditComment(EditCommentDTO postcomment);
-    }
+        object DeleteComment(int commentId);
+        }
 }
