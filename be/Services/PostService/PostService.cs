@@ -43,10 +43,14 @@ namespace be.Services.PostService
         {
             return _postRepository.GetPostByStatus(status, accountId);
         }
-
-        public dynamic GetPostBySubject(int subjectId)
+        public dynamic GetPostBySubject(int subjectId, int accountId)
         {
-            return _postRepository.GetPostBySubject(subjectId);
+            return _postRepository.GetPostBySubject(subjectId, accountId);
+        }
+
+        public dynamic GetApprovedPostBySubject(int subjectId)
+        {
+            return _postRepository.GetApprovedPostBySubject(subjectId);
         }
         public dynamic GetPostBySubjectAndStatus(int subjectId ,string status, int accountId)
         {
@@ -74,6 +78,11 @@ namespace be.Services.PostService
         public object DeletePost(int postId)
         {
             var result = _postRepository.DeletePost(postId);
+            return result;
+        }
+        public object RejectPost(int postId)
+        {
+            var result = _postRepository.RejectPost(postId);
             return result;
         }
     }
