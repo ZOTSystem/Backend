@@ -175,11 +175,11 @@ namespace be.Controllers
             }
         }
         [HttpDelete("UnlikePost")]
-        public async Task<IActionResult> UnlikePost(int postLikeId)
+        public async Task<IActionResult> UnlikePost(int postId, int accountId)
         {
             try
             {
-                var result = _postService.UnlikePost(postLikeId);
+                var result = _postService.UnlikePost(postId, accountId);
                 return Ok(result);
             }
             catch

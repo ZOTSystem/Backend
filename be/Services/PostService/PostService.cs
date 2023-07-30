@@ -70,9 +70,9 @@ namespace be.Services.PostService
             var result = _postRepository.LikePost(postId, accountId);
             return result;
         }
-        public object UnlikePost(int postLikeId)
+        public object UnlikePost(int postId, int accountId)
         {
-            var result = _postRepository.UnlikePost(postLikeId);
+            var result = _postRepository.UnlikePost(postId, accountId);
             return result;
         }
         public object DeletePost(int postId)

@@ -17,7 +17,7 @@ namespace be.Services.PostService
         object CountComment(int postId);
         object CountLikedNumberByPost(int postId);
         object LikePost(int postId, int accountId);
-        object UnlikePost(int postLikeId);
+        object UnlikePost(int postId, int accountId);
         object DeletePost(int postId);
         object RejectPost(int postId);
     }

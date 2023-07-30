@@ -18,7 +18,7 @@ namespace be.Repositories.PostRepository
         object CountComment(int PostId);
         object CountLikedNumberByPost(int postId);
         object LikePost(int postId, int accountId);
-        object UnlikePost(int postLikeId);
+        object UnlikePost(int postId, int accountId);
         object DeletePost(int postId);
         object RejectPost(int postId);
     }

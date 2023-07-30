@@ -68,7 +68,6 @@ namespace be.Repositories.PostRepository
                 .Include(p => p.Subject)
                 .Include(p => p.Account)
                 .Include(p => p.Postcomments)
-                .Include(p => p.Postlikes)
                 .Where(p => p.Status == "Approved")
                 .OrderByDescending(p => p.CreateDate)
                 .Select(p =>
@@ -84,8 +83,10 @@ namespace be.Repositories.PostRepository
                   p.PostFile,
                   p.Status,
                   p.CreateDate,
+                  p.Postlikes,
                   countComment = p.Postcomments.Count(),
-                  countLike = p.Postlikes.Count()
+                  countLike = p.Postlikes.Count(),
+                  
               });
             return data;
         }
@@ -156,6 +157,7 @@ namespace be.Repositories.PostRepository
                  p.PostFile,
                  p.Status,
                  p.CreateDate,
+                 p.Postlikes,
                  countComment = p.Postcomments.Count(),
                  countLike = p.Postlikes.Count()
              });
@@ -180,6 +182,7 @@ namespace be.Repositories.PostRepository
                         p.PostFile,
                         p.Status,
                         p.CreateDate,
+                        p.Postlikes,
                         countComment = p.Postcomments.Count(),
                         countLike = p.Postlikes.Count()
                     }); ;
@@ -207,6 +210,7 @@ namespace be.Repositories.PostRepository
                           p.PostFile,
                           p.Status,
                           p.CreateDate,
+                          p.Postlikes,
                           countComment = p.Postcomments.Count(),
                           countLike = p.Postlikes.Count()
                       });
@@ -230,6 +234,7 @@ namespace be.Repositories.PostRepository
                         p.PostFile,
                         p.Status,
                         p.CreateDate,
+                        p.Postlikes,
                         countComment = p.Postcomments.Count(),
                         countLike = p.Postlikes.Count()
                     });
@@ -255,6 +260,7 @@ namespace be.Repositories.PostRepository
                         p.PostFile,
                         p.Status,
                         p.CreateDate,
+                        p.Postlikes,
                         countComment = p.Postcomments.Count(),
                         countLike = p.Postlikes.Count()
                     });
@@ -284,6 +290,7 @@ namespace be.Repositories.PostRepository
                             p.PostFile,
                             p.Status,
                             p.CreateDate,
+                            p.Postlikes,
                             countComment = p.Postcomments.Count(),
                             countLike = p.Postlikes.Count()
                         });
@@ -307,6 +314,7 @@ namespace be.Repositories.PostRepository
                             p.PostFile,
                             p.Status,
                             p.CreateDate,
+                            p.Postlikes,
                             countComment = p.Postcomments.Count(),
                             countLike = p.Postlikes.Count()
                         });
@@ -390,26 +398,38 @@ namespace be.Repositories.PostRepository
                     PostId = postId,
                     LikeDate = DateTime.Now
                 };
+                var checkExist = _context.Postlikes.Any(c => c.PostId == postId && c.AccountId == accountId);
+                    {
+                    if (checkExist)
+                    {
+                        return new
+                        {
+                            message = "This account has liked this post before!"
+                        };
+                    }
+                    else {
+                        _context.Postlikes.Add(postlike);
+                        _context.SaveChanges();
 
-                _context.Postlikes.Add(postlike);
-                _context.SaveChanges();
-
-                return new
-                {
-                    status = 200,
-                    postlike,
-                    message = "Post liked"
-                };
+                        return new
+                        {
+                            status = 200,
+                            postlike,
+                            message = "Post liked"
+                        };
+                    }
+                }
             }
         }
-        public object UnlikePost(int postLikeId)
+
+        public object UnlikePost(int postId, int accountId)
         {
-            var postUnlike = _context.Postlikes.SingleOrDefault(x => x.PostLikeId == postLikeId);
+            var postUnlike = _context.Postlikes.SingleOrDefault(x => x.PostId == postId && x.AccountId == accountId);
             if (postUnlike == null)
             {
                 return new
                 {
-                    message = "PostLikeId does not exist in the database!",
+                    message = "This account has not liked this post before!",
                     status = 400
                 };
             }
