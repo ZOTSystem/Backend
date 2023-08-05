@@ -85,5 +85,20 @@ namespace be.Services.PostService
             var result = _postRepository.RejectPost(postId);
             return result;
         }
+        public object SavePost(int postId, int accountId)
+        {
+            var result = _postRepository.SavePost(postId, accountId);
+            return result;
+        }
+        public object UnsavePost(int postId, int accountId)
+        {
+            var result = _postRepository.UnsavePost(postId, accountId);
+            return result;
+        }
+        public dynamic GetSavedPostByAccountId(int accountId)
+        {
+            var result = _postRepository.GetSavedPostByAccountId(accountId);
+            return result;
+        }
     }
 }

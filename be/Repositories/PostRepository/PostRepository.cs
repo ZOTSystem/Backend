@@ -86,7 +86,7 @@ namespace be.Repositories.PostRepository
                   p.Postlikes,
                   countComment = p.Postcomments.Count(),
                   countLike = p.Postlikes.Count(),
-                  
+
               });
             return data;
         }
@@ -240,7 +240,7 @@ namespace be.Repositories.PostRepository
                     });
                 return posts;
             }
-        } 
+        }
         public dynamic GetApprovedPostBySubject(int subjectId)
         {
             {
@@ -399,7 +399,7 @@ namespace be.Repositories.PostRepository
                     LikeDate = DateTime.Now
                 };
                 var checkExist = _context.Postlikes.Any(c => c.PostId == postId && c.AccountId == accountId);
-                    {
+                {
                     if (checkExist)
                     {
                         return new
@@ -486,6 +486,102 @@ namespace be.Repositories.PostRepository
                 {
                     status = 200,
                     message = "The post has been rejected to upload!"
+                };
+            }
+        }
+        public object SavePost(int postId, int accountId)
+        {
+            var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+            if (post == null)
+            {
+                return new
+                {
+                    message = "The post doesn't exist in the database",
+                    status = 400
+                };
+            }
+            else
+            {
+                var postSave = new Postfavourite
+                {
+                    AccountId = accountId,
+                    PostId = postId,
+                    Status = "Saved"
+                };
+                var checkExist = _context.Postfavourites.Any(c => c.PostId == postId && c.AccountId == accountId);
+                {
+                    if (checkExist)
+                    {
+                        return new
+                        {
+                            message = "This account has saved this post before!"
+                        };
+                    }
+                    else
+                    {
+                        _context.Postfavourites.Add(postSave);
+                        _context.SaveChanges();
+
+                        return new
+                        {
+                            status = 200,
+                            postSave,
+                            message = "Post saved"
+                        };
+                    }
+                }
+            }
+        }
+        public object UnsavePost(int postId, int accountId)
+        {
+            var postUnsave = _context.Postfavourites.SingleOrDefault(x => x.PostId == postId && x.AccountId == accountId);
+            if (postUnsave == null)
+            {
+                return new
+                {
+                    message = "This account has not saved this post before!",
+                    status = 400
+                };
+            }
+            else
+            {
+                _context.Postfavourites.Remove(postUnsave);
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    message = "Unsave post successfully!"
+                };
+            }
+        }
+        public dynamic GetSavedPostByAccountId(int accountId)
+        {
+            try
+            {
+                var posts = _context.Postfavourites
+                    .Include(p => p.Post)
+                    .Where(p => p.AccountId == accountId && p.Status == "Saved" && p.Post.Status == "Approved")
+                    .OrderByDescending(p => p.Post.CreateDate)
+                    .Select(p =>
+                new
+                {
+                    p.PostId,
+                    p.Post.SubjectId,
+                    p.Post.Subject.SubjectName,
+                    p.AccountId,
+                    p.Account.FullName,
+                    p.Post.PostText,
+                    p.Post.PostFile,
+                    p.Post.Status,
+                    p.Post.CreateDate
+                });
+                return posts;
+            }
+            catch (Exception ex)
+            {
+                return new
+                {
+                    message = "This account has not saved any post before!"
                 };
             }
         }

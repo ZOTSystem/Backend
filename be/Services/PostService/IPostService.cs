@@ -20,5 +20,8 @@ namespace be.Services.PostService
         object UnlikePost(int postId, int accountId);
         object DeletePost(int postId);
         object RejectPost(int postId);
+        object SavePost(int postId, int accountId);
+        object UnsavePost(int postId, int accountId);
+        dynamic GetSavedPostByAccountId(int accountId);
     }
 }

@@ -214,5 +214,37 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+        [HttpPost("SavePost")]
+        public async Task<ActionResult> SavePost(int postId, int accountId)
+        {
+            try
+            {
+                var result = _postService.SavePost(postId, accountId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("UnSavePost")]
+        public async Task<IActionResult> UnsavePost(int postId, int accountId)
+        {
+            try
+            {
+                var result = _postService.UnsavePost(postId, accountId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("GetSavedPostByAccount")]
+        public ActionResult GetSavedPostByAccount(int accountId)
+        {
+            var posts = _postService.GetSavedPostByAccountId(accountId);
+            return Ok(posts);
+        }
     }
 }
