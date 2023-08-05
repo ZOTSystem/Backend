@@ -84,6 +84,7 @@ namespace be.Repositories.PostRepository
                   p.Status,
                   p.CreateDate,
                   p.Postlikes,
+                  p.Postfavourites,
                   countComment = p.Postcomments.Count(),
                   countLike = p.Postlikes.Count(),
 
@@ -158,6 +159,7 @@ namespace be.Repositories.PostRepository
                  p.Status,
                  p.CreateDate,
                  p.Postlikes,
+                 p.Postfavourites,
                  countComment = p.Postcomments.Count(),
                  countLike = p.Postlikes.Count()
              });
@@ -183,6 +185,7 @@ namespace be.Repositories.PostRepository
                         p.Status,
                         p.CreateDate,
                         p.Postlikes,
+                        p.Postfavourites,
                         countComment = p.Postcomments.Count(),
                         countLike = p.Postlikes.Count()
                     }); ;
@@ -211,6 +214,7 @@ namespace be.Repositories.PostRepository
                           p.Status,
                           p.CreateDate,
                           p.Postlikes,
+                          p.Postfavourites,
                           countComment = p.Postcomments.Count(),
                           countLike = p.Postlikes.Count()
                       });
@@ -235,6 +239,7 @@ namespace be.Repositories.PostRepository
                         p.Status,
                         p.CreateDate,
                         p.Postlikes,
+                        p.Postfavourites,
                         countComment = p.Postcomments.Count(),
                         countLike = p.Postlikes.Count()
                     });
@@ -261,6 +266,7 @@ namespace be.Repositories.PostRepository
                         p.Status,
                         p.CreateDate,
                         p.Postlikes,
+                        p.Postfavourites,
                         countComment = p.Postcomments.Count(),
                         countLike = p.Postlikes.Count()
                     });
@@ -291,6 +297,7 @@ namespace be.Repositories.PostRepository
                             p.Status,
                             p.CreateDate,
                             p.Postlikes,
+                            p.Postfavourites,
                             countComment = p.Postcomments.Count(),
                             countLike = p.Postlikes.Count()
                         });
@@ -315,6 +322,7 @@ namespace be.Repositories.PostRepository
                             p.Status,
                             p.CreateDate,
                             p.Postlikes,
+                            p.Postfavourites,
                             countComment = p.Postcomments.Count(),
                             countLike = p.Postlikes.Count()
                         });
