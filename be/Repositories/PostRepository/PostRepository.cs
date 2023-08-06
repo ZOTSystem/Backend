@@ -581,7 +581,11 @@ namespace be.Repositories.PostRepository
                     p.Post.PostText,
                     p.Post.PostFile,
                     p.Post.Status,
-                    p.Post.CreateDate
+                    p.Post.CreateDate,
+                    p.Post.Postlikes,
+                    p.Post.Postfavourites,
+                    countComment = p.Post.Postcomments.Count(),
+                    countLike = p.Post.Postlikes.Count()
                 });
                 return posts;
             }
