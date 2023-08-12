@@ -1,6 +1,7 @@
 ﻿using be.Models;
 using be.Services.QuestionService;
 using Microsoft.AspNetCore.Mvc;
+using be.DTOs;
 
 namespace be.Controllers
 {
@@ -31,24 +32,152 @@ namespace be.Controllers
             }
         }
 
-        [HttpPost("addQuestionByExcel")]
-        public async Task<ActionResult> AddQuestionByExcel([FromBody] IList<IList<string>> record)
+        [HttpGet("getAllQuestionByTopicId")]
+        public async Task<ActionResult> GetAllQuestionByTopicId(int topicId)
         {
-            Question question = null;
-            for(int i = 1; i < record.Count; i++) 
+            try
             {
-                question = new Question();
-                question.SubjectId = Convert.ToInt32(record[i][0]);
-
-
-                await Task.Run(() => _questionService.AddQuestionByExcel(question));
+                var result = _questionService.GetAllQuestionByTopicId(topicId);
+                return Ok(result);
             }
-            return Ok(new
+            catch
             {
-                message = "Add Sucessfully",
-                status = 200,
-            });
+                return BadRequest();
+            }
         }
 
+        [HttpPost("addQuestion")]
+        public async Task<ActionResult> AddQuestion (CreateQuestionDTO question)
+        {
+            try
+            {
+                var result = _questionService.CreateQuestion(question);
+                return Ok(result);
+            } catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("changeStatusQuestion")]
+        public async Task<ActionResult> ChangeStatusQuestion (int questionId, string status)
+        {
+            try
+            {
+                var result = _questionService.ChangeStatusQuestion(questionId, status);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("addQuestionByExcel")]
+        public async Task<ActionResult> AddQuestionByExcel([FromBody] CreateQuestionByExcelDTO createQuestion)
+        {
+            try
+            {
+                Question question = null;
+                DateTime nowDay = DateTime.Now;
+                for (int i = 1; i < createQuestion.Records.Count; i++)
+                {
+                    question = new Question();
+                    question.SubjectId = createQuestion.SubjectId;
+                    question.AccountId = createQuestion.AccountId;
+                    question.TopicId = createQuestion.TopicId;
+                    question.QuestionContext = createQuestion.Records[i][0];
+                    question.OptionA = createQuestion.Records[i][1];
+                    question.OptionB = createQuestion.Records[i][2];
+                    question.OptionC = createQuestion.Records[i][3];
+                    question.OptionD = createQuestion.Records[i][4];
+                    if (createQuestion.Records[i][5].Contains(question.OptionA))
+                    {
+                        question.AnswerId = 1;
+                    } else if (createQuestion.Records[i][5].Contains(question.OptionB))
+                    {
+                        question.AnswerId = 2;
+                    } else if (createQuestion.Records[i][5].Contains(question.OptionC))
+                    {
+                        question.AnswerId = 3;
+                    } else
+                    {
+                        question.AnswerId = 4;
+                    }
+                    if (createQuestion.Records[i][5].Contains("Thông hiểu"))
+                    {
+                        question.LevelId = 1;
+                    } else if (createQuestion.Records[i][5].Contains("Vận dụng thấp")){
+                        question.LevelId = 2;
+                    } else
+                    {
+                        question.LevelId = 3;
+                    }
+                    question.Solution = createQuestion.Records[i][6];
+                    question.CreateDate = nowDay;
+                    question.Status = "0";
+                    await Task.Run(() => _questionService.AddQuestionByExcel(question));
+                }
+                return Ok(new
+                {
+                    message = "Add Sucessfully",
+                    status = 200,
+                });
+            }
+            catch (FormatException ex)
+            {
+                return BadRequest(new
+                {
+                    message = "Invalid format in input data",
+                    status = 400,
+                    error = ex.Message
+                });
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                return BadRequest(new
+                {
+                    message = "Invalid index in input data",
+                    status = 400,
+                    error = ex.Message
+                });
+            }
+            catch (Exception ex)
+            {
+                // Log the exception here for debugging purposes
+                return StatusCode(500, new
+                {
+                    message = "An error occurred",
+                    status = 500,
+                    error = ex.Message
+                });
+            }
+        }
+
+        [HttpPost("editQuestion")]
+        public async Task<ActionResult> EditQuestion (EditQuestionDTO editQuestion)
+        {
+            try
+            {
+                var result = _questionService.EditQuestion(editQuestion);
+                return Ok(result);
+            } catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("approveAllQuestion")]
+        public async Task<ActionResult> ApproveAllQuestion(int topicId)
+        {
+            try
+            {
+                var result = _questionService.ApproveAllQuestionOfTopic(topicId);
+                return Ok(result);
+            } catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

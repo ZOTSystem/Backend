@@ -61,7 +61,7 @@ public partial class DbZotsystemContext : DbContext
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A63E7243BA");
+            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A66858C329");
 
             entity.ToTable("ACCOUNT");
 
@@ -79,19 +79,17 @@ public partial class DbZotsystemContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.SchoolName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.SchoolName).HasMaxLength(255);
             entity.Property(e => e.Status).HasMaxLength(20);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
                 .HasForeignKey(d => d.RoleId)
-                .HasConstraintName("FK__ACCOUNT__RoleId__6B24EA82");
+                .HasConstraintName("FK__ACCOUNT__RoleId__45F365D3");
         });
 
         modelBuilder.Entity<Answer>(entity =>
         {
-            entity.HasKey(e => e.AnswerId).HasName("PK__ANSWERS__D4825004BB6DD022");
+            entity.HasKey(e => e.AnswerId).HasName("PK__ANSWERS__D4825004526787B2");
 
             entity.ToTable("ANSWERS");
 
@@ -100,7 +98,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Combination>(entity =>
         {
-            entity.HasKey(e => e.CombinationId).HasName("PK__COMBINAT__D188AC02D0CC3D0D");
+            entity.HasKey(e => e.CombinationId).HasName("PK__COMBINAT__D188AC02B6F0F1CE");
 
             entity.ToTable("COMBINATIONS");
 
@@ -109,7 +107,7 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.School).WithMany(p => p.Combinations)
                 .HasForeignKey(d => d.SchoolId)
-                .HasConstraintName("FK__COMBINATI__Schoo__6C190EBB");
+                .HasConstraintName("FK__COMBINATI__Schoo__46E78A0C");
         });
 
         modelBuilder.Entity<Groupsubject>(entity =>
@@ -120,16 +118,16 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.Combination).WithMany()
                 .HasForeignKey(d => d.CombinationId)
-                .HasConstraintName("FK__GROUPSUBJ__Combi__6D0D32F4");
+                .HasConstraintName("FK__GROUPSUBJ__Combi__47DBAE45");
 
             entity.HasOne(d => d.Subject).WithMany()
                 .HasForeignKey(d => d.SubjectId)
-                .HasConstraintName("FK__GROUPSUBJ__Subje__6E01572D");
+                .HasConstraintName("FK__GROUPSUBJ__Subje__48CFD27E");
         });
 
         modelBuilder.Entity<Level>(entity =>
         {
-            entity.HasKey(e => e.LevelId).HasName("PK__LEVELS__09F03C266B11C627");
+            entity.HasKey(e => e.LevelId).HasName("PK__LEVELS__09F03C2639E337E2");
 
             entity.ToTable("LEVELS");
 
@@ -138,7 +136,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Newcategory>(entity =>
         {
-            entity.HasKey(e => e.NewCategoryId).HasName("PK__NEWCATEG__84E7EAB30E30EA2F");
+            entity.HasKey(e => e.NewCategoryId).HasName("PK__NEWCATEG__84E7EAB328659B3B");
 
             entity.ToTable("NEWCATEGORYS");
 
@@ -147,30 +145,27 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewId).HasName("PK__NEWS__7CC3777E69DD2C8F");
+            entity.HasKey(e => e.NewId).HasName("PK__NEWS__7CC3777E9919AD9E");
 
             entity.ToTable("NEWS");
 
-            entity.Property(e => e.Content).HasMaxLength(500);
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .IsUnicode(false);
-            entity.Property(e => e.Subtitle).HasMaxLength(200);
-            entity.Property(e => e.Title).HasMaxLength(200);
 
             entity.HasOne(d => d.Account).WithMany(p => p.News)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__NEWS__AccountId__6EF57B66");
+                .HasConstraintName("FK__NEWS__AccountId__49C3F6B7");
 
             entity.HasOne(d => d.NewCategory).WithMany(p => p.News)
                 .HasForeignKey(d => d.NewCategoryId)
-                .HasConstraintName("FK__NEWS__NewCategor__6FE99F9F");
+                .HasConstraintName("FK__NEWS__NewCategor__4AB81AF0");
         });
 
         modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => e.PostId).HasName("PK__POSTS__AA1260184D6D085C");
+            entity.HasKey(e => e.PostId).HasName("PK__POSTS__AA126018702B8D88");
 
             entity.ToTable("POSTS");
 
@@ -183,16 +178,16 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Posts)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__POSTS__AccountId__76969D2E");
+                .HasConstraintName("FK__POSTS__AccountId__5165187F");
 
             entity.HasOne(d => d.Subject).WithMany(p => p.Posts)
                 .HasForeignKey(d => d.SubjectId)
-                .HasConstraintName("FK__POSTS__SubjectId__778AC167");
+                .HasConstraintName("FK__POSTS__SubjectId__52593CB8");
         });
 
         modelBuilder.Entity<Postcomment>(entity =>
         {
-            entity.HasKey(e => e.PostCommentId).HasName("PK__POSTCOMM__A955AFEDD41817D4");
+            entity.HasKey(e => e.PostCommentId).HasName("PK__POSTCOMM__A955AFED3BF82AD1");
 
             entity.ToTable("POSTCOMMENTS");
 
@@ -205,16 +200,16 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Postcomments)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__POSTCOMME__Accou__70DDC3D8");
+                .HasConstraintName("FK__POSTCOMME__Accou__4BAC3F29");
 
             entity.HasOne(d => d.Post).WithMany(p => p.Postcomments)
                 .HasForeignKey(d => d.PostId)
-                .HasConstraintName("FK__POSTCOMME__PostI__71D1E811");
+                .HasConstraintName("FK__POSTCOMME__PostI__4CA06362");
         });
 
         modelBuilder.Entity<Postfavourite>(entity =>
         {
-            entity.HasKey(e => e.PostFavouriteId).HasName("PK__POSTFAVO__91F6FB97D5801E54");
+            entity.HasKey(e => e.PostFavouriteId).HasName("PK__POSTFAVO__91F6FB97A2F5D4B4");
 
             entity.ToTable("POSTFAVOURITES");
 
@@ -224,16 +219,16 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Postfavourites)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__POSTFAVOU__Accou__72C60C4A");
+                .HasConstraintName("FK__POSTFAVOU__Accou__4D94879B");
 
             entity.HasOne(d => d.Post).WithMany(p => p.Postfavourites)
                 .HasForeignKey(d => d.PostId)
-                .HasConstraintName("FK__POSTFAVOU__PostI__73BA3083");
+                .HasConstraintName("FK__POSTFAVOU__PostI__4E88ABD4");
         });
 
         modelBuilder.Entity<Postlike>(entity =>
         {
-            entity.HasKey(e => e.PostLikeId).HasName("PK__POSTLIKE__4CF65C195FF9DCA1");
+            entity.HasKey(e => e.PostLikeId).HasName("PK__POSTLIKE__4CF65C19418CFC9F");
 
             entity.ToTable("POSTLIKES");
 
@@ -241,54 +236,48 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Postlikes)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__POSTLIKES__Accou__74AE54BC");
+                .HasConstraintName("FK__POSTLIKES__Accou__4F7CD00D");
 
             entity.HasOne(d => d.Post).WithMany(p => p.Postlikes)
                 .HasForeignKey(d => d.PostId)
-                .HasConstraintName("FK__POSTLIKES__PostI__75A278F5");
+                .HasConstraintName("FK__POSTLIKES__PostI__5070F446");
         });
 
         modelBuilder.Entity<Question>(entity =>
         {
-            entity.HasKey(e => e.QuestionId).HasName("PK__QUESTION__0DC06FAC6D5F04F4");
+            entity.HasKey(e => e.QuestionId).HasName("PK__QUESTION__0DC06FAC7A283BAE");
 
             entity.ToTable("QUESTIONS");
 
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
-            entity.Property(e => e.OptionA).HasMaxLength(300);
-            entity.Property(e => e.OptionB).HasMaxLength(300);
-            entity.Property(e => e.OptionC).HasMaxLength(300);
-            entity.Property(e => e.OptionD).HasMaxLength(300);
-            entity.Property(e => e.QuestionContext).HasMaxLength(300);
-            entity.Property(e => e.Solution).HasMaxLength(500);
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .IsUnicode(false);
 
             entity.HasOne(d => d.Account).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__QUESTIONS__Accou__787EE5A0");
+                .HasConstraintName("FK__QUESTIONS__Accou__534D60F1");
 
             entity.HasOne(d => d.Answer).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.AnswerId)
-                .HasConstraintName("FK__QUESTIONS__Answe__797309D9");
+                .HasConstraintName("FK__QUESTIONS__Answe__5441852A");
 
             entity.HasOne(d => d.Level).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.LevelId)
-                .HasConstraintName("FK__QUESTIONS__Level__7A672E12");
+                .HasConstraintName("FK__QUESTIONS__Level__5535A963");
 
             entity.HasOne(d => d.Subject).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.SubjectId)
-                .HasConstraintName("FK__QUESTIONS__Subje__7B5B524B");
+                .HasConstraintName("FK__QUESTIONS__Subje__5629CD9C");
 
             entity.HasOne(d => d.Topic).WithMany(p => p.Questions)
                 .HasForeignKey(d => d.TopicId)
-                .HasConstraintName("FK__QUESTIONS__Topic__7C4F7684");
+                .HasConstraintName("FK__QUESTIONS__Topic__571DF1D5");
         });
 
         modelBuilder.Entity<Questiontest>(entity =>
         {
-            entity.HasKey(e => e.TestId).HasName("PK__QUESTION__8CC3316069C6F6DB");
+            entity.HasKey(e => e.TestId).HasName("PK__QUESTION__8CC33160820E5736");
 
             entity.ToTable("QUESTIONTESTS");
 
@@ -296,20 +285,20 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.Answer).WithMany(p => p.Questiontests)
                 .HasForeignKey(d => d.AnswerId)
-                .HasConstraintName("FK__QUESTIONT__Answe__7D439ABD");
+                .HasConstraintName("FK__QUESTIONT__Answe__5812160E");
 
             entity.HasOne(d => d.Question).WithMany(p => p.Questiontests)
                 .HasForeignKey(d => d.QuestionId)
-                .HasConstraintName("FK__QUESTIONT__Quest__7E37BEF6");
+                .HasConstraintName("FK__QUESTIONT__Quest__59063A47");
 
             entity.HasOne(d => d.TestDetail).WithMany(p => p.Questiontests)
                 .HasForeignKey(d => d.TestDetailId)
-                .HasConstraintName("FK__QUESTIONT__TestD__7F2BE32F");
+                .HasConstraintName("FK__QUESTIONT__TestD__59FA5E80");
         });
 
         modelBuilder.Entity<Reportpost>(entity =>
         {
-            entity.HasKey(e => e.ReportId).HasName("PK__REPORTPO__D5BD480517C14EB2");
+            entity.HasKey(e => e.ReportId).HasName("PK__REPORTPO__D5BD480506276558");
 
             entity.ToTable("REPORTPOSTS");
 
@@ -319,16 +308,16 @@ public partial class DbZotsystemContext : DbContext
 
             entity.HasOne(d => d.Account).WithMany(p => p.Reportposts)
                 .HasForeignKey(d => d.AccountId)
-                .HasConstraintName("FK__REPORTPOS__Accou__00200768");
+                .HasConstraintName("FK__REPORTPOS__Accou__5AEE82B9");
 
             entity.HasOne(d => d.Post).WithMany(p => p.Reportposts)
                 .HasForeignKey(d => d.PostId)
-                .HasConstraintName("FK__REPORTPOS__PostI__01142BA1");
+                .HasConstraintName("FK__REPORTPOS__PostI__5BE2A6F2");
         });
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__ROLE__8AFACE1A408CB79F");
+            entity.HasKey(e => e.RoleId).HasName("PK__ROLE__8AFACE1A4EEF57F6");
 
             entity.ToTable("ROLE");
 
@@ -337,7 +326,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<School>(entity =>
         {
-            entity.HasKey(e => e.SchoolId).HasName("PK__SCHOOLS__3DA4675B216D4630");
+            entity.HasKey(e => e.SchoolId).HasName("PK__SCHOOLS__3DA4675B041AEBB8");
 
             entity.ToTable("SCHOOLS");
 
@@ -346,7 +335,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Subject>(entity =>
         {
-            entity.HasKey(e => e.SubjectId).HasName("PK__SUBJECTS__AC1BA3A8FA14D9BF");
+            entity.HasKey(e => e.SubjectId).HasName("PK__SUBJECTS__AC1BA3A8A7B418C0");
 
             entity.ToTable("SUBJECTS");
 
@@ -358,7 +347,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Testdetail>(entity =>
         {
-            entity.HasKey(e => e.TestDetailId).HasName("PK__TESTDETA__F5085946E39AD976");
+            entity.HasKey(e => e.TestDetailId).HasName("PK__TESTDETA__F508594629853DA8");
 
             entity.ToTable("TESTDETAILS");
 
@@ -368,16 +357,22 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Topic>(entity =>
         {
-            entity.HasKey(e => e.TopicId).HasName("PK__TOPICS__022E0F5DAFAB95CA");
+            entity.HasKey(e => e.TopicId).HasName("PK__TOPICS__022E0F5D1BCFB416");
 
             entity.ToTable("TOPICS");
 
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
             entity.Property(e => e.Duration).HasMaxLength(200);
+            entity.Property(e => e.FinishTestDate).HasColumnType("datetime");
+            entity.Property(e => e.StartTestDate).HasColumnType("datetime");
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.TopicName).HasMaxLength(200);
+
+            entity.HasOne(d => d.Subject).WithMany(p => p.Topics)
+                .HasForeignKey(d => d.SubjectId)
+                .HasConstraintName("FK__TOPICS__SubjectI__6E01572D");
         });
 
         OnModelCreatingPartial(modelBuilder);

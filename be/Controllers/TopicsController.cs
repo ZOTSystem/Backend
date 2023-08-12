@@ -2,6 +2,7 @@
 using be.Services.TopicService;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using be.DTOs;
 
 namespace be.Controllers
 {
@@ -45,5 +46,77 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+
+        #region - Manage Topic
+
+        [HttpGet("getAllTopic")]
+        public async Task<ActionResult> GetAllTopic()
+        {
+            try
+            {
+                var data = _topicService.GetAllTopic();
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("changeStatusTopic")]
+        public async Task<ActionResult> ChangeStatusTopic(int topicId, string status)
+        {
+            try
+            {
+                var data = _topicService.ChangeStatusTopic(topicId, status);
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("addTopic")]
+        public async Task<ActionResult> AddTopic(CreateTopic createTopic)
+        {
+            try
+            {
+                var result = _topicService.CreateTopic(createTopic);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getTopicById")]
+        public async Task<ActionResult> GetTopicById (int topicId)
+        {
+            try
+            {
+                var result = _topicService.GetTopicById(topicId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("editTopic")]
+        public async Task<ActionResult> EditTopic (EditTopic editTopic)
+        {
+            try
+            {
+                var result = _topicService.UpdateTopic(editTopic);
+                return Ok(result);
+            } catch
+            {
+                return BadRequest();
+            }
+        }
+        #endregion
     }
 }
