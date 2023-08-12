@@ -21,5 +21,11 @@ public partial class Topic
 
     public string? Status { get; set; }
 
+    public DateTime? StartTestDate { get; set; }
+
+    public DateTime? FinishTestDate { get; set; }
+
+    public int? SubjectId { get; set; }
+
     public virtual ICollection<Question> Questions { get; set; } = new List<Question>();
 }
