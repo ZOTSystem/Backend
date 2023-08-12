@@ -1,4 +1,5 @@
-﻿using be.Repositories.NewsRepository;
+﻿using be.DTOs;
+using be.Repositories.NewsRepository;
 using be.Repositories.TopicRepository;
 
 namespace be.Services.NewsService
@@ -10,6 +11,22 @@ namespace be.Services.NewsService
         {
             _newRepository = new NewsRepository();
         }
+
+        public object AddNews(NewsDTO newsDTO)
+        {
+            return _newRepository.Addews(newsDTO);
+        }
+
+        public object ChangeStatusNews(int newsId, string status)
+        {
+            return _newRepository.ChangeStatusNews(newsId, status); 
+        }
+
+        public object EditNews(NewsDTO newsDTO)
+        {
+            return _newRepository.EditNews(newsDTO);
+        }
+
         public object GetAllNews()
         {
             return _newRepository.GetAllNews();
@@ -19,5 +36,7 @@ namespace be.Services.NewsService
         {
             return _newRepository.GetAllNewsCategory(); 
         }
+
+        
     }
 }

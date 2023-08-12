@@ -79,9 +79,7 @@ public partial class DbZotsystemContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.SchoolName)
-                .HasMaxLength(100)
-                .IsUnicode(false);
+            entity.Property(e => e.SchoolName).HasMaxLength(255);
             entity.Property(e => e.Status).HasMaxLength(20);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
