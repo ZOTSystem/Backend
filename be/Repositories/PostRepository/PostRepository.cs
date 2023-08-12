@@ -64,19 +64,30 @@ namespace be.Repositories.PostRepository
         }
         public async Task<object> GetAllPost()
         {
-
-            var data = _context.Posts.Include(p => p.Subject).Include(p => p.Account).Where(p => p.Status == "Approved").OrderByDescending(p => p.CreateDate).Select(p =>
+            var data = _context.Posts
+                .Include(p => p.Subject)
+                .Include(p => p.Account)
+                .Include(p => p.Postcomments)
+                .Where(p => p.Status == "Approved")
+                .OrderByDescending(p => p.CreateDate)
+                .Select(p =>
               new
               {
                   p.PostId,
                   p.SubjectId,
                   p.Subject.SubjectName,
                   p.AccountId,
+                  p.Account.Avatar,
                   p.Account.FullName,
                   p.PostText,
                   p.PostFile,
                   p.Status,
-                  p.CreateDate
+                  p.CreateDate,
+                  p.Postlikes,
+                  p.Postfavourites,
+                  countComment = p.Postcomments.Count(),
+                  countLike = p.Postlikes.Count(),
+
               });
             return data;
         }
@@ -103,7 +114,6 @@ namespace be.Repositories.PostRepository
                         status = 200,
                     };
                 }
-
                 editPost.PostText = post.PostText;
                 editPost.PostFile = post.PostFile;
                 editPost.SubjectId = post.SubjectId;
@@ -126,27 +136,123 @@ namespace be.Repositories.PostRepository
             }
         }
 
-        public dynamic GetPostByStatus(string? status)
+        public dynamic GetPostByStatus(string? status, int accountId)
         {
-            var posts = _context.Posts.Include(p => p.Subject).Where(p => p.Status == status).OrderByDescending(p => p.CreateDate).Select(p =>
-                 new
-                 {
-                     p.PostId,
-                     p.Subject.SubjectName,
-                     p.Account.FullName,
-                     p.PostText,
-                     p.PostFile,
-                     p.Status,
-                     p.CreateDate
-                 });
-            return posts;
+            var checkAccount = _context.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+            if (checkAccount.RoleId == 1 || checkAccount.RoleId == 2)
+            {
+                var posts = _context.Posts
+                .Include(p => p.Subject)
+                .Include(p => p.Postcomments)
+                .Include(p => p.Postlikes)
+                .Where(p => p.Status == status)
+                .OrderByDescending(p => p.CreateDate)
+                .Select(p =>
+             new
+             {
+                 p.PostId,
+                 p.Subject.SubjectName,
+                 p.Account.FullName,
+                 p.Account.Avatar,
+                 p.PostText,
+                 p.PostFile,
+                 p.Status,
+                 p.CreateDate,
+                 p.Postlikes,
+                 p.Postfavourites,
+                 countComment = p.Postcomments.Count(),
+                 countLike = p.Postlikes.Count()
+             });
+                return posts;
+            }
+            else
+            {
+                var posts = _context.Posts
+                .Include(p => p.Subject)
+                .Include(p => p.Postcomments)
+                .Include(p => p.Postlikes)
+                .Where(p => p.Status == status && p.AccountId == accountId)
+                .OrderByDescending(p => p.CreateDate)
+                .Select(p =>
+                    new
+                    {
+                        p.PostId,
+                        p.Subject.SubjectName,
+                        p.Account.FullName,
+                        p.Account.Avatar,
+                        p.PostText,
+                        p.PostFile,
+                        p.Status,
+                        p.CreateDate,
+                        p.Postlikes,
+                        p.Postfavourites,
+                        countComment = p.Postcomments.Count(),
+                        countLike = p.Postlikes.Count()
+                    }); ;
+                return posts;
+            }
         }
-
-        public dynamic GetPostBySubject(int subjectId)
+        public dynamic GetPostBySubject(int subjectId, int accountId)
+        {
+            var checkAccount = _context.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+            if (checkAccount.RoleId == 1 || checkAccount.RoleId == 2)
+            {
+                var posts = _context.Posts
+                      .Include(p => p.Subject)
+                      .Include(p => p.Postcomments)
+                      .Include(p => p.Postlikes)
+                      .Where(p => p.Subject.SubjectId == subjectId)
+                      .OrderByDescending(p => p.CreateDate)
+                      .Select(p => new
+                      {
+                          p.PostId,
+                          p.Subject.SubjectName,
+                          p.Account.FullName,
+                          p.Account.Avatar,
+                          p.PostText,
+                          p.PostFile,
+                          p.Status,
+                          p.CreateDate,
+                          p.Postlikes,
+                          p.Postfavourites,
+                          countComment = p.Postcomments.Count(),
+                          countLike = p.Postlikes.Count()
+                      });
+                return posts;
+            }
+            else
+            {
+                var posts = _context.Posts
+                    .Include(p => p.Subject)
+                    .Include(p => p.Postcomments)
+                    .Include(p => p.Postlikes)
+                    .Where(p => p.Subject.SubjectId == subjectId && p.AccountId == accountId)
+                    .OrderByDescending(p => p.CreateDate)
+                    .Select(p => new
+                    {
+                        p.PostId,
+                        p.Subject.SubjectName,
+                        p.Account.FullName,
+                        p.Account.Avatar,
+                        p.PostText,
+                        p.PostFile,
+                        p.Status,
+                        p.CreateDate,
+                        p.Postlikes,
+                        p.Postfavourites,
+                        countComment = p.Postcomments.Count(),
+                        countLike = p.Postlikes.Count()
+                    });
+                return posts;
+            }
+        }
+        public dynamic GetApprovedPostBySubject(int subjectId)
         {
             {
                 var posts = _context.Posts
                     .Include(p => p.Subject)
+                    .Include(p => p.Postcomments)
+                    .Include(p => p.Postlikes)
                     .Where(p => p.Subject.SubjectId == subjectId && p.Status == "Approved")
                     .OrderByDescending(p => p.CreateDate)
                     .Select(p => new
@@ -154,33 +260,74 @@ namespace be.Repositories.PostRepository
                         p.PostId,
                         p.Subject.SubjectName,
                         p.Account.FullName,
+                        p.Account.Avatar,
                         p.PostText,
                         p.PostFile,
                         p.Status,
-                        p.CreateDate
+                        p.CreateDate,
+                        p.Postlikes,
+                        p.Postfavourites,
+                        countComment = p.Postcomments.Count(),
+                        countLike = p.Postlikes.Count()
                     });
 
                 return posts;
             }
         }
-        public dynamic GetPostBySubjectAndStatus(int subjectId, string status)
+        public dynamic GetPostBySubjectAndStatus(int subjectId, string status, int accountId)
         {
             {
-                var posts = _context.Posts
-                    .Include(p => p.Subject)
-                    .Where(p => p.Subject.SubjectId == subjectId && p.Status == status)
-                    .OrderByDescending(p => p.CreateDate)
-                    .Select(p => new
-                    {
-                        p.PostId,
-                        p.Subject.SubjectName,
-                        p.Account.FullName,
-                        p.PostText,
-                        p.PostFile,
-                        p.Status,
-                        p.CreateDate
-                    });
-                return posts;
+                var checkAccount = _context.Accounts.SingleOrDefault(a => a.AccountId == accountId);
+                if (checkAccount.RoleId == 1 || checkAccount.RoleId == 2)
+                {
+                    var posts = _context.Posts
+                        .Include(p => p.Subject)
+                        .Include(p => p.Postcomments)
+                        .Include(p => p.Postlikes)
+                        .Where(p => p.Subject.SubjectId == subjectId && p.Status == status)
+                        .OrderByDescending(p => p.CreateDate)
+                        .Select(p => new
+                        {
+                            p.PostId,
+                            p.Subject.SubjectName,
+                            p.Account.FullName,
+                            p.Account.Avatar,
+                            p.PostText,
+                            p.PostFile,
+                            p.Status,
+                            p.CreateDate,
+                            p.Postlikes,
+                            p.Postfavourites,
+                            countComment = p.Postcomments.Count(),
+                            countLike = p.Postlikes.Count()
+                        });
+                    return posts;
+                }
+                else
+                {
+                    var posts = _context.Posts
+                        .Include(p => p.Subject)
+                        .Include(p => p.Postcomments)
+                        .Include(p => p.Postlikes)
+                        .Where(p => p.Subject.SubjectId == subjectId && p.Status == status && p.AccountId == accountId)
+                        .OrderByDescending(p => p.CreateDate)
+                        .Select(p => new
+                        {
+                            p.PostId,
+                            p.Subject.SubjectName,
+                            p.Account.FullName,
+                            p.Account.Avatar,
+                            p.PostText,
+                            p.PostFile,
+                            p.Status,
+                            p.CreateDate,
+                            p.Postlikes,
+                            p.Postfavourites,
+                            countComment = p.Postcomments.Count(),
+                            countLike = p.Postlikes.Count()
+                        });
+                    return posts;
+                }
             }
         }
         public object CountComment(int postId)
@@ -199,7 +346,6 @@ namespace be.Repositories.PostRepository
                 }
                 return new
                 {
-                    status = 200,
                     countComment,
                 };
             }
@@ -260,26 +406,38 @@ namespace be.Repositories.PostRepository
                     PostId = postId,
                     LikeDate = DateTime.Now
                 };
-
-                _context.Postlikes.Add(postlike);
-                _context.SaveChanges();
-
-                return new
+                var checkExist = _context.Postlikes.Any(c => c.PostId == postId && c.AccountId == accountId);
                 {
-                    status = 200,
-                    postlike,
-                    message = "Post liked"
-                };
+                    if (checkExist)
+                    {
+                        return new
+                        {
+                            message = "This account has liked this post before!"
+                        };
+                    }
+                    else {
+                        _context.Postlikes.Add(postlike);
+                        _context.SaveChanges();
+
+                        return new
+                        {
+                            status = 200,
+                            postlike,
+                            message = "Post liked"
+                        };
+                    }
+                }
             }
         }
-        public object UnlikePost(int postLikeId)
+
+        public object UnlikePost(int postId, int accountId)
         {
-            var postUnlike = _context.Postlikes.SingleOrDefault(x => x.PostLikeId == postLikeId);
+            var postUnlike = _context.Postlikes.SingleOrDefault(x => x.PostId == postId && x.AccountId == accountId);
             if (postUnlike == null)
             {
                 return new
                 {
-                    message = "PostLikeId does not exist in the database!",
+                    message = "This account has not liked this post before!",
                     status = 400
                 };
             }
@@ -291,6 +449,151 @@ namespace be.Repositories.PostRepository
                 {
                     status = 200,
                     message = "Unlike post successfully!"
+                };
+            }
+        }
+
+        public object DeletePost(int postId)
+        {
+            var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+            if (post == null)
+            {
+                return new
+                {
+                    message = "The post doesn't exist in database",
+                    status = 400
+                };
+            }
+            else
+            {
+                post.Status = "Deleted";
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    message = "Post deleted successfully!"
+                };
+            }
+        }
+        public object RejectPost(int postId)
+        {
+            var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+            if (post == null || post.Status != "Pending")
+            {
+                return new
+                {
+                    message = "The post doesn't exist in database or has been approved",
+                    status = 400
+                };
+            }
+            else
+            {
+                post.Status = "Rejected";
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    message = "The post has been rejected to upload!"
+                };
+            }
+        }
+        public object SavePost(int postId, int accountId)
+        {
+            var post = _context.Posts.SingleOrDefault(x => x.PostId == postId);
+            if (post == null)
+            {
+                return new
+                {
+                    message = "The post doesn't exist in the database",
+                    status = 400
+                };
+            }
+            else
+            {
+                var postSave = new Postfavourite
+                {
+                    AccountId = accountId,
+                    PostId = postId,
+                    Status = "Saved"
+                };
+                var checkExist = _context.Postfavourites.Any(c => c.PostId == postId && c.AccountId == accountId);
+                {
+                    if (checkExist)
+                    {
+                        return new
+                        {
+                            message = "This account has saved this post before!"
+                        };
+                    }
+                    else
+                    {
+                        _context.Postfavourites.Add(postSave);
+                        _context.SaveChanges();
+
+                        return new
+                        {
+                            status = 200,
+                            postSave,
+                            message = "Post saved"
+                        };
+                    }
+                }
+            }
+        }
+        public object UnsavePost(int postId, int accountId)
+        {
+            var postUnsave = _context.Postfavourites.SingleOrDefault(x => x.PostId == postId && x.AccountId == accountId);
+            if (postUnsave == null)
+            {
+                return new
+                {
+                    message = "This account has not saved this post before!",
+                    status = 400
+                };
+            }
+            else
+            {
+                _context.Postfavourites.Remove(postUnsave);
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    message = "Unsave post successfully!"
+                };
+            }
+        }
+        public dynamic GetSavedPostByAccountId(int accountId)
+        {
+            try
+            {
+                var posts = _context.Postfavourites
+                    .Include(p => p.Post)
+                    .Where(p => p.AccountId == accountId && p.Status == "Saved" && p.Post.Status == "Approved")
+                    .OrderByDescending(p => p.Post.CreateDate)
+                    .Select(p =>
+                new
+                {
+                    p.PostId,
+                    p.Post.SubjectId,
+                    p.Post.Subject.SubjectName,
+                    p.AccountId,
+                    p.Account.FullName,
+                    p.Post.PostText,
+                    p.Post.PostFile,
+                    p.Post.Status,
+                    p.Post.CreateDate,
+                    p.Post.Postlikes,
+                    p.Post.Postfavourites,
+                    countComment = p.Post.Postcomments.Count(),
+                    countLike = p.Post.Postlikes.Count()
+                });
+                return posts;
+            }
+            catch (Exception ex)
+            {
+                return new
+                {
+                    message = "This account has not saved any post before!"
                 };
             }
         }

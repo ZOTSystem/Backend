@@ -78,5 +78,18 @@ namespace be.Controllers
             }
             catch { return BadRequest(); }
         }
+        [HttpPost("DeleteComment")]
+        public async Task<IActionResult> DeleteComment(int commentId)
+        {
+            try
+            {
+                var result = _postcommentService.DeleteComment(commentId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

@@ -23,6 +23,8 @@ using be.Repositories.StatictisRepository;
 using be.Services.StatictisService;
 using be.Repositories.NewsRepository;
 using be.Services.NewsService;
+using be.Repositories.QuestionTestRepository;
+using be.Services.QuestionTestService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -76,6 +78,10 @@ services.AddScoped<IStatictisService, StatictisService>();
 
 services.AddScoped<INewsRepository, NewsRepository>();
 services.AddScoped<INewsService, NewsService>();
+
+services.AddScoped<IQuestionTestRepository, QuestionTestRepository>();
+services.AddScoped<IQuestionTestService, QuestionTestService>();
+
 
 var app = builder.Build();
 

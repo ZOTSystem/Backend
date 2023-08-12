@@ -32,6 +32,10 @@ namespace be.Services.PostcommentService
         {
             return _postcommentRepository.EditComment(postcomment);
         }
+        public object DeleteComment(int commentId)
+        {
+            return _postcommentRepository.DeleteComment(commentId);
+        }
 
     }
 }

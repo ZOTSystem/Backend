@@ -32,6 +32,20 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("getSubjectByTopicType")]
+        public async Task<ActionResult> GetSubjectByTopicType(int topicType)
+        {
+            try
+            {
+                var data = await _subjectService.GetSubjectByTopicType(topicType);
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
 

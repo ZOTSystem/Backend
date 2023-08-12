@@ -39,18 +39,22 @@ namespace be.Services.PostService
             return _postRepository.EditPost(post);
         }
 
-        public dynamic GetPostByStatus(string? status)
+        public dynamic GetPostByStatus(string? status, int accountId)
         {
-            return _postRepository.GetPostByStatus(status);
+            return _postRepository.GetPostByStatus(status, accountId);
+        }
+        public dynamic GetPostBySubject(int subjectId, int accountId)
+        {
+            return _postRepository.GetPostBySubject(subjectId, accountId);
         }
 
-        public dynamic GetPostBySubject(int subjectId)
+        public dynamic GetApprovedPostBySubject(int subjectId)
         {
-            return _postRepository.GetPostBySubject(subjectId);
+            return _postRepository.GetApprovedPostBySubject(subjectId);
         }
-        public dynamic GetPostBySubjectAndStatus(int subjectId ,string status)
+        public dynamic GetPostBySubjectAndStatus(int subjectId ,string status, int accountId)
         {
-            return _postRepository.GetPostBySubjectAndStatus(subjectId,status);
+            return _postRepository.GetPostBySubjectAndStatus(subjectId, status, accountId);
         }
         public object CountComment(int postId)
         {
@@ -66,10 +70,35 @@ namespace be.Services.PostService
             var result = _postRepository.LikePost(postId, accountId);
             return result;
         }
-        public object UnlikePost(int postLikeId)
+        public object UnlikePost(int postId, int accountId)
         {
-            var result = _postRepository.UnlikePost(postLikeId);
+            var result = _postRepository.UnlikePost(postId, accountId);
             return result;
         }
-}
+        public object DeletePost(int postId)
+        {
+            var result = _postRepository.DeletePost(postId);
+            return result;
+        }
+        public object RejectPost(int postId)
+        {
+            var result = _postRepository.RejectPost(postId);
+            return result;
+        }
+        public object SavePost(int postId, int accountId)
+        {
+            var result = _postRepository.SavePost(postId, accountId);
+            return result;
+        }
+        public object UnsavePost(int postId, int accountId)
+        {
+            var result = _postRepository.UnsavePost(postId, accountId);
+            return result;
+        }
+        public dynamic GetSavedPostByAccountId(int accountId)
+        {
+            var result = _postRepository.GetSavedPostByAccountId(accountId);
+            return result;
+        }
+    }
 }

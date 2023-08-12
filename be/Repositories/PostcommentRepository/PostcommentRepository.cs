@@ -39,12 +39,18 @@ namespace be.Repositories.PostcommentRepository
         }
         public dynamic GetCommentByPost(int postId)
         {
-            var postcomments = _context.Postcomments.Include(p => p.Post).Where(p => p.PostId == postId).OrderByDescending(p => p.CommentDate).Select(p =>
+            var postcomments = _context.Postcomments
+                .Include(p => p.Post)
+                .Include(p => p.Account)
+                .Where(p => p.PostId == postId && p.Status == "Uploaded")
+                .OrderByDescending(p => p.CommentDate)
+                .Select(p =>
             new
             {
                 p.PostCommentId,
                 p.AccountId,
                 p.Account.FullName,
+                p.Account.Avatar,
                 p.PostId,
                 p.Content,
                 p.FileComment,
@@ -110,5 +116,28 @@ namespace be.Repositories.PostcommentRepository
                 };
             }
         }
+        public object DeleteComment(int commentId)
+        {
+            var comment = _context.Postcomments.SingleOrDefault(x => x.PostCommentId == commentId);
+            if (comment == null)
+            {
+                return new
+                {
+                    message = "Comment does not exist!",
+                    status = 400
+                };
+            }
+            else
+            {
+                comment.Status = "Deleted";
+                _context.SaveChanges();
+                return new
+                {
+                    status = 200,
+                    message = "Comment deleted successfully!"
+                };
+            }
+        }
+
     } 
 }

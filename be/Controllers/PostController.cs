@@ -24,8 +24,10 @@ namespace be.Controllers
             try
             {
                 var data = await _postService.GetAllPost();
+                
                 return Ok(data);
-            } catch
+            }
+            catch
             {
                 return BadRequest();
             }
@@ -91,20 +93,27 @@ namespace be.Controllers
         }
 
         [HttpGet("GetPostByStatus")]
-        public ActionResult GetPostByStatus(string? status)
+        public ActionResult GetPostByStatus(string? status, int accountId)
         {
-            var posts = _postService.GetPostByStatus(status);
-            return Ok(posts);
+            var result = _postService.GetPostByStatus(status, accountId);
+            return Ok(result);
         }
         [HttpGet("GetPostBySubject")]
-        public ActionResult GetPostBySubject(int subjectId)
+        public ActionResult GetPostBySubject(int subjectId, int accountId)
         {
-            var posts = _postService.GetPostBySubject(subjectId);
+            var result = _postService.GetPostBySubject(subjectId, accountId);
+            return Ok(result);
+        }
+
+        [HttpGet("GetApprovedPostBySubject")]
+        public ActionResult GetApprovedPostBySubject(int subjectId)
+        {
+            var posts = _postService.GetApprovedPostBySubject(subjectId);
             return Ok(posts);
         }
 
         [HttpGet("GetPostBySubjectAndStatus")]
-        public async Task<ActionResult> GetPostBySubjectAndStatusAsync(int? subjectId, string? status)
+        public async Task<ActionResult> GetPostBySubjectAndStatusAsync(int? subjectId, string? status, int accountId)
         {
             if (subjectId == null && status == null)
             {
@@ -112,17 +121,18 @@ namespace be.Controllers
             }    
             if (subjectId != null && status == null )
             {
-                return  GetPostBySubject(subjectId.GetValueOrDefault());
+                return  GetPostBySubject(subjectId.GetValueOrDefault(), accountId);
             }
             else if (subjectId == null && status !=null)
             {
-                return  GetPostByStatus(status);
+                return  GetPostByStatus(status, accountId);
             }
             else { 
-            var posts = _postService.GetPostBySubjectAndStatus(subjectId.GetValueOrDefault(), status);
+            var posts = _postService.GetPostBySubjectAndStatus(subjectId.GetValueOrDefault(), status, accountId);
             return Ok(posts);
             }
         }
+
         [HttpGet("CountCommentByPost")]
         public  async Task<ActionResult> CountComment(int postId )
         {
@@ -165,17 +175,76 @@ namespace be.Controllers
             }
         }
         [HttpDelete("UnlikePost")]
-        public async Task<IActionResult> UnlikePost(int postLikeId)
+        public async Task<IActionResult> UnlikePost(int postId, int accountId)
         {
             try
             {
-                var result = _postService.UnlikePost(postLikeId);
+                var result = _postService.UnlikePost(postId, accountId);
                 return Ok(result);
             }
             catch
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost("DeletePost")]
+        public async Task<IActionResult> DeletePost(int postId)
+        {
+            try
+            {
+                var result = _postService.DeletePost(postId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("RejectPost")]
+        public async Task<IActionResult> RejectPost(int postId)
+        {
+            try
+            {
+                var result = _postService.RejectPost(postId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpPost("SavePost")]
+        public async Task<ActionResult> SavePost(int postId, int accountId)
+        {
+            try
+            {
+                var result = _postService.SavePost(postId, accountId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpDelete("UnSavePost")]
+        public async Task<IActionResult> UnsavePost(int postId, int accountId)
+        {
+            try
+            {
+                var result = _postService.UnsavePost(postId, accountId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+        [HttpGet("GetSavedPostByAccount")]
+        public ActionResult GetSavedPostByAccount(int accountId)
+        {
+            var posts = _postService.GetSavedPostByAccountId(accountId);
+            return Ok(posts);
         }
     }
 }

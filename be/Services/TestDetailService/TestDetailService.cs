@@ -26,5 +26,25 @@ namespace be.Services.TestDetailService
         {
             return _testDetailRepository.StatictisUnderstanding(accountId, subjectName);
         }
+        public object AddTestDetail(int accountId)
+        {
+            var result = _testDetailRepository.AddTestDetail(accountId);
+            return result;
+        }
+        public object UpdateTestDetail(int testdetailId)
+        {
+            var result = _testDetailRepository.UpdateTestDetail(testdetailId);
+            return result;
+        }
+        public object GetTestDetailByTestDetailId(int testdetailId)
+        {
+            var result = _testDetailRepository.GetTestDetailByTestDetailId(testdetailId);
+            return result;
+        }
+
+        public async Task<object> GetQuestionTestByTestDetailId(int testdetailId)
+        {
+            return await _testDetailRepository.GetQuestionTestByTestDetailId(testdetailId);
+        }
     }
 }
