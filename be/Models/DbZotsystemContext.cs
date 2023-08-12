@@ -55,13 +55,13 @@ public partial class DbZotsystemContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlServer("Server=DESKTOP-B9LVRBH\\SQLEXPRESS;Database=Db_ZOTSystem;Trusted_Connection=True;encrypt=false;");
+       => optionsBuilder.UseSqlServer("Server=DESKTOP-B9LVRBH\\SQLEXPRESS;Database=Db_ZOTSystem;Trusted_Connection=True;encrypt=false;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Account>(entity =>
         {
-            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A66858C329");
+            entity.HasKey(e => e.AccountId).HasName("PK__ACCOUNT__349DA5A6116550FC");
 
             entity.ToTable("ACCOUNT");
 
@@ -79,7 +79,9 @@ public partial class DbZotsystemContext : DbContext
             entity.Property(e => e.Phone)
                 .HasMaxLength(10)
                 .IsUnicode(false);
-            entity.Property(e => e.SchoolName).HasMaxLength(255);
+            entity.Property(e => e.SchoolName)
+                .HasMaxLength(100)
+                .IsUnicode(false);
             entity.Property(e => e.Status).HasMaxLength(20);
 
             entity.HasOne(d => d.Role).WithMany(p => p.Accounts)
@@ -89,7 +91,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Answer>(entity =>
         {
-            entity.HasKey(e => e.AnswerId).HasName("PK__ANSWERS__D4825004526787B2");
+            entity.HasKey(e => e.AnswerId).HasName("PK__ANSWERS__D48250047D81D230");
 
             entity.ToTable("ANSWERS");
 
@@ -98,7 +100,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Combination>(entity =>
         {
-            entity.HasKey(e => e.CombinationId).HasName("PK__COMBINAT__D188AC02B6F0F1CE");
+            entity.HasKey(e => e.CombinationId).HasName("PK__COMBINAT__D188AC02C63A10D9");
 
             entity.ToTable("COMBINATIONS");
 
@@ -127,7 +129,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Level>(entity =>
         {
-            entity.HasKey(e => e.LevelId).HasName("PK__LEVELS__09F03C2639E337E2");
+            entity.HasKey(e => e.LevelId).HasName("PK__LEVELS__09F03C261BB7B886");
 
             entity.ToTable("LEVELS");
 
@@ -136,7 +138,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Newcategory>(entity =>
         {
-            entity.HasKey(e => e.NewCategoryId).HasName("PK__NEWCATEG__84E7EAB328659B3B");
+            entity.HasKey(e => e.NewCategoryId).HasName("PK__NEWCATEG__84E7EAB3C4B8EE69");
 
             entity.ToTable("NEWCATEGORYS");
 
@@ -145,7 +147,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<News>(entity =>
         {
-            entity.HasKey(e => e.NewId).HasName("PK__NEWS__7CC3777E9919AD9E");
+            entity.HasKey(e => e.NewId).HasName("PK__NEWS__7CC3777E518CB4A4");
 
             entity.ToTable("NEWS");
 
@@ -165,7 +167,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Post>(entity =>
         {
-            entity.HasKey(e => e.PostId).HasName("PK__POSTS__AA126018702B8D88");
+            entity.HasKey(e => e.PostId).HasName("PK__POSTS__AA126018CAC926A3");
 
             entity.ToTable("POSTS");
 
@@ -187,7 +189,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Postcomment>(entity =>
         {
-            entity.HasKey(e => e.PostCommentId).HasName("PK__POSTCOMM__A955AFED3BF82AD1");
+            entity.HasKey(e => e.PostCommentId).HasName("PK__POSTCOMM__A955AFED6E140DEF");
 
             entity.ToTable("POSTCOMMENTS");
 
@@ -209,7 +211,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Postfavourite>(entity =>
         {
-            entity.HasKey(e => e.PostFavouriteId).HasName("PK__POSTFAVO__91F6FB97A2F5D4B4");
+            entity.HasKey(e => e.PostFavouriteId).HasName("PK__POSTFAVO__91F6FB976761D4E6");
 
             entity.ToTable("POSTFAVOURITES");
 
@@ -228,7 +230,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Postlike>(entity =>
         {
-            entity.HasKey(e => e.PostLikeId).HasName("PK__POSTLIKE__4CF65C19418CFC9F");
+            entity.HasKey(e => e.PostLikeId).HasName("PK__POSTLIKE__4CF65C191D5F00AE");
 
             entity.ToTable("POSTLIKES");
 
@@ -245,11 +247,12 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Question>(entity =>
         {
-            entity.HasKey(e => e.QuestionId).HasName("PK__QUESTION__0DC06FAC7A283BAE");
+            entity.HasKey(e => e.QuestionId).HasName("PK__QUESTION__0DC06FAC91B44508");
 
             entity.ToTable("QUESTIONS");
 
             entity.Property(e => e.CreateDate).HasColumnType("datetime");
+            entity.Property(e => e.QuestionContext).HasMaxLength(300);
             entity.Property(e => e.Status)
                 .HasMaxLength(20)
                 .IsUnicode(false);
@@ -277,7 +280,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Questiontest>(entity =>
         {
-            entity.HasKey(e => e.TestId).HasName("PK__QUESTION__8CC33160820E5736");
+            entity.HasKey(e => e.TestId).HasName("PK__QUESTION__8CC3316058C28697");
 
             entity.ToTable("QUESTIONTESTS");
 
@@ -298,7 +301,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Reportpost>(entity =>
         {
-            entity.HasKey(e => e.ReportId).HasName("PK__REPORTPO__D5BD480506276558");
+            entity.HasKey(e => e.ReportId).HasName("PK__REPORTPO__D5BD48052085AC6C");
 
             entity.ToTable("REPORTPOSTS");
 
@@ -317,7 +320,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Role>(entity =>
         {
-            entity.HasKey(e => e.RoleId).HasName("PK__ROLE__8AFACE1A4EEF57F6");
+            entity.HasKey(e => e.RoleId).HasName("PK__ROLE__8AFACE1A65FCF332");
 
             entity.ToTable("ROLE");
 
@@ -326,7 +329,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<School>(entity =>
         {
-            entity.HasKey(e => e.SchoolId).HasName("PK__SCHOOLS__3DA4675B041AEBB8");
+            entity.HasKey(e => e.SchoolId).HasName("PK__SCHOOLS__3DA4675BAA00E0FF");
 
             entity.ToTable("SCHOOLS");
 
@@ -335,7 +338,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Subject>(entity =>
         {
-            entity.HasKey(e => e.SubjectId).HasName("PK__SUBJECTS__AC1BA3A8A7B418C0");
+            entity.HasKey(e => e.SubjectId).HasName("PK__SUBJECTS__AC1BA3A899317C2F");
 
             entity.ToTable("SUBJECTS");
 
@@ -347,7 +350,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Testdetail>(entity =>
         {
-            entity.HasKey(e => e.TestDetailId).HasName("PK__TESTDETA__F508594629853DA8");
+            entity.HasKey(e => e.TestDetailId).HasName("PK__TESTDETA__F50859461505771C");
 
             entity.ToTable("TESTDETAILS");
 
@@ -357,7 +360,7 @@ public partial class DbZotsystemContext : DbContext
 
         modelBuilder.Entity<Topic>(entity =>
         {
-            entity.HasKey(e => e.TopicId).HasName("PK__TOPICS__022E0F5D1BCFB416");
+            entity.HasKey(e => e.TopicId).HasName("PK__TOPICS__022E0F5DF8194A82");
 
             entity.ToTable("TOPICS");
 
@@ -369,10 +372,6 @@ public partial class DbZotsystemContext : DbContext
                 .HasMaxLength(20)
                 .IsUnicode(false);
             entity.Property(e => e.TopicName).HasMaxLength(200);
-
-            entity.HasOne(d => d.Subject).WithMany(p => p.Topics)
-                .HasForeignKey(d => d.SubjectId)
-                .HasConstraintName("FK__TOPICS__SubjectI__6E01572D");
         });
 
         OnModelCreatingPartial(modelBuilder);

@@ -14,6 +14,8 @@
         public int? Grade { get; set; }
         public DateTime? CreateDate { get; set; }
         public string? Status { get; set; }
+        public string? StartTestDate { get; set; }
+        public string? FinishTestDate { get; set; }
     }
 
     public class CreateTopic

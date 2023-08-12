@@ -203,7 +203,7 @@ namespace be.Repositories.TopicRepository
                              on topic.TopicId equals question.TopicId
                              join subject in _context.Subjects
                              on question.SubjectId equals subject.SubjectId
-                             where topic.Grade == grade && subject.SubjectId == subjectId && topic.TopicType == topicType && topic.Status == "0"
+                             where topic.Grade == grade && subject.SubjectId == subjectId && topic.TopicType == topicType && topic.Status == "1"
                              select new
                              {
                                  topic.TopicId,
@@ -215,7 +215,9 @@ namespace be.Repositories.TopicRepository
                                  topic.TopicType,
                                  topic.Grade,
                                  topic.CreateDate,
-                                 topic.Status
+                                 topic.Status,
+                                 topic.StartTestDate,
+                                 topic.FinishTestDate
                              }).Distinct().ToList();
 
             var listTopicSubmited = (from topic in _context.Topics
@@ -246,7 +248,10 @@ namespace be.Repositories.TopicRepository
                 topicDTO.TopicId = item.TopicId;
                 topicDTO.TopicName = item.TopicName;
                 topicDTO.TotalQuestion = item.TotalQuestion;
-                topicDTO.Duration = item.Duration;
+                topicDTO.Duration = item.Duration; 
+                topicDTO.StartTestDate = item.StartTestDate?.ToString("MM/dd/yyyy H:mm");
+                topicDTO.FinishTestDate = item.FinishTestDate?.ToString("MM/dd/yyyy H:mm");
+
                 foreach (var itemSubmited in listTopicSubmited)
                 {
                     if (item.TopicId == itemSubmited.TopicId)
@@ -254,7 +259,10 @@ namespace be.Repositories.TopicRepository
                         topicDTO.Score = itemSubmited.Score;
                     }
                 }
-                data.Add(topicDTO);
+                if (item.FinishTestDate >= DateTime.Now || string.IsNullOrEmpty(topicDTO.FinishTestDate))
+                {
+                    data.Add(topicDTO);
+                }
             }
 
             return new

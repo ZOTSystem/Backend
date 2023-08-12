@@ -31,5 +31,27 @@ namespace be.Repositories.SubjectRepository
             };
         }
 
+        public async Task<object> GetSubjectByTopicType(int topicType)
+        {
+            var data = (from subject in _context.Subjects
+                        join question in _context.Questions
+                        on subject.SubjectId equals question.SubjectId
+                        join topic in _context.Topics
+                        on question.TopicId equals topic.TopicId
+                        where topic.TopicType == topicType && topic.FinishTestDate >= DateTime.Now
+                        select new
+                        {
+                            topicType = topicType,
+                            subject.SubjectId,
+                            subject.SubjectName,
+                        }).Distinct().ToList();
+            return new
+            {
+                status = 200,
+                data,
+            };
+        }
+
+
     }
 }

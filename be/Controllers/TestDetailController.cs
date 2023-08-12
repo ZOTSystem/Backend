@@ -34,5 +34,47 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPut("updateTestDetail")]
+        public async Task<ActionResult> UpdateTestDetail(int testdetailId)
+        {
+            try
+            {
+                var result = _testDetailService.UpdateTestDetail(testdetailId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getTestDetailByTestDetailId")]
+        public async Task<ActionResult> GetTestDetailByTestDetailId(int testdetailId)
+        {
+            try
+            {
+                var result = _testDetailService.GetTestDetailByTestDetailId(testdetailId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getQuestionTestByTestDetailId")]
+        public async Task<ActionResult> GetQuestionTestByTestDetailId(int testdetailId)
+        {
+            try
+            {
+                var data = await _testDetailService.GetQuestionTestByTestDetailId(testdetailId);
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }
