@@ -16,6 +16,8 @@
         public string? Status { get; set; }
         public string? StartTestDate { get; set; }
         public string? FinishTestDate { get; set; }
+        public DateTime? BeginTestDate { get; set; }
+        public DateTime? EndTestDate { get;set; }
     }
 
     public class CreateTopic
@@ -25,6 +27,8 @@
         public int? SubjectId { get; set; }
         public int? TopicType { get; set; }
         public int? Grade { get; set; }
+        public DateTime? StartTestDate { get; set; }
+        public DateTime? FinishTestDate { get; set; }
     }
 
     public class EditTopic
@@ -35,5 +39,9 @@
         public int? SubjectId { get; set; }
         public int? TopicType { get; set; }
         public int? Grade { get; set; }
+        public DateTime? StartTestDate { get; set; }
+        public DateTime? FinishTestDate { get; set; }
     }
+
+
 }

@@ -37,6 +37,21 @@ namespace be.Services.NewsService
             return _newRepository.GetAllNewsCategory(); 
         }
 
-        
+        public object GetAllNewsInUserPage()
+        {
+            return _newRepository.GetAllNewsInUserPage();
+        }
+
+        public object GetNewDetail(int newsId)
+        {
+            return _newRepository.GetNewDetail(newsId);
+        }
+
+        public object GetNewsByPage(int page, int pageSize)
+        {
+            return _newRepository.GetNewsByPage(page, pageSize);    
+        }
+
+       
     }
 }

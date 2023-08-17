@@ -25,6 +25,7 @@ namespace be.Repositories.UserRepository
         object ChangeStatusUser(int accountId, string status);
 
         object WeekLyActivity(int accountId);
+        public object GetPhoneNumberWithoutThisPhone(string phoneNumber);
 
         #endregion
     }

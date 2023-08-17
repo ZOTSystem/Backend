@@ -88,6 +88,11 @@ namespace be.Services.UserService
         {
             return _userRepository.WeekLyActivity(accountId);
         }
+
+        public object GetPhoneNumberWithoutThisPhone(string phoneNumber)
+        {
+            return _userRepository.GetPhoneNumberWithoutThisPhone(phoneNumber);
+        }
         #endregion
     }
 }

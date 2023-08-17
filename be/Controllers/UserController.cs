@@ -75,7 +75,21 @@ namespace be.Controllers
             {
                 return BadRequest();
             }
-        }   
+        }
+
+        [HttpGet("getPhoneWithoutThisPhone")]
+        public async Task<ActionResult> GetPhoneWithoutThisPhone(string phone)
+        {
+            try
+            {
+                var result = _userService.GetPhoneNumberWithoutThisPhone(phone);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
        
     }
 }

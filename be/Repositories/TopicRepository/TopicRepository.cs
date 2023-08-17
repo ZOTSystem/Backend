@@ -52,6 +52,8 @@ namespace be.Repositories.TopicRepository
                 topic.TopicType = createTopic.TopicType;
                 topic.CreateDate = DateTime.Now;
                 topic.Status = "0";
+                topic.StartTestDate =  createTopic.StartTestDate;
+                topic.FinishTestDate = createTopic.FinishTestDate;
                 _context.Topics.Add(topic);
                 _context.SaveChanges();
                 return new
@@ -88,6 +90,8 @@ namespace be.Repositories.TopicRepository
             topic.SubjectId = editTopic.SubjectId;
             topic.Duration = editTopic.Duration;
             topic.TopicType = editTopic.TopicType;
+            topic.StartTestDate = editTopic.StartTestDate;
+            topic.FinishTestDate = editTopic.FinishTestDate;
             try
             {
                 _context.SaveChanges();
@@ -176,7 +180,8 @@ namespace be.Repositories.TopicRepository
                 {
                     topicDTO.Status = "Khóa";
                 }
-                //topicDTO.Status = item.Status;
+                topicDTO.BeginTestDate = item.StartTestDate;
+                topicDTO.EndTestDate = item.FinishTestDate;
                 topicList.Add(topicDTO);
             }
             var data = topicList.OrderByDescending(x => x.TopicId);

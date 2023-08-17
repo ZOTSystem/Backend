@@ -85,5 +85,47 @@ namespace be.Controllers
                 return BadRequest();    
             }
         }
+
+        [HttpGet("displayNewsInUserPage")]
+        public async Task<ActionResult> DisplayNewsInUserPage()
+        {
+            try
+            {
+                var result = _newsService.GetAllNewsInUserPage();
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("displayNewDetail")]
+        public async Task<ActionResult> DisplayNewDetail(int newsId)
+        {
+            try
+            {
+                var result = _newsService.GetNewDetail(newsId);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getNewsInPage")]
+        public async Task<ActionResult> GetNewsInPage(int page = 1, int pageSize = 3)
+        {
+            try
+            {
+                var result = _newsService.GetNewsByPage(page, pageSize);
+                return Ok(result);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

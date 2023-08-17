@@ -498,7 +498,27 @@ namespace be.Repositories.UserRepository
             return date.AddDays(daysUntilSunday);
         }
 
-  
+        public object GetPhoneNumberWithoutThisPhone(string phoneNumber)
+        {
+            var result = from account in _context.Accounts.Where(x => x.Phone != phoneNumber)
+                         select new
+                         {
+                             phoneNumber = account.Phone,
+                         };
+            List<string> data = new List<string>();
+            foreach (var phone in result)
+            {
+                data.Add(phone.phoneNumber);
+            }
+            return new
+            {
+                message = "Get successfully",
+                status = 200,
+                data = data,
+            };
+        }
+
+
 
         #endregion
 

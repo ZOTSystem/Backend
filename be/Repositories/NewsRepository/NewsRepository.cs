@@ -1,5 +1,6 @@
 ﻿using be.DTOs;
 using be.Models;
+using System.Drawing;
 
 namespace be.Repositories.NewsRepository
 {
@@ -130,6 +131,164 @@ namespace be.Repositories.NewsRepository
                 status = 200,
                 data,
             };
+        }
+
+        public object GetAllNewsInUserPage()
+        {
+            try
+            {
+                var firstNews = _context.News.OrderByDescending(x => x.NewId).FirstOrDefault();
+                var firstNewsDTO = new FirstNews();
+                firstNewsDTO.NewsId = firstNews.NewId;
+                Newcategory category1 = _context.Newcategorys.SingleOrDefault(x => x.NewCategoryId == firstNews.NewCategoryId);
+                firstNewsDTO.CategoryName = category1.CategoryName;
+                firstNewsDTO.Title = firstNews.Title;
+                firstNewsDTO.Image = firstNews.Image;
+                firstNewsDTO.CreatedDay = firstNews.CreateDate?.ToString("dd/MM/yyyy");
+                var dailyNews = DailyNews();
+                var otherNews = OtherNews();
+                return new
+                {
+                    message = "Get data successfully",
+                    status = 200,
+                    firstNew = firstNewsDTO,
+                    dailyNew = dailyNews,
+                    otherNew = otherNews,
+                };
+            }
+            catch
+            {
+                return new
+                {
+                    message = "Get data failed",
+                    status = 400,
+                };
+            }
+        }
+
+        public List<DailyNews> DailyNews()
+        {
+            var firstNews = _context.News.OrderByDescending(x => x.NewId).FirstOrDefault();
+            var newsList = _context.News.Where(x => x.NewId != firstNews.NewId).OrderByDescending(x => x.NewId).ToList();
+            List<DailyNews> dailyNews = new List<DailyNews>();
+            var count = 0;
+            foreach (var currentNews in newsList)
+            {
+                DailyNews news = new DailyNews();
+                news.NewsId = currentNews.NewId;
+                var id = currentNews.NewCategoryId;
+                var category2 = _context.Newcategorys.SingleOrDefault(x => x.NewCategoryId == id);
+
+                if (category2 == null)
+                {
+                    return null;
+                }
+                news.CategoryName = category2.CategoryName;
+                news.Title = currentNews.Title;
+                news.Image = currentNews.Image;
+                dailyNews.Add(news);
+
+                count++;
+                if (count == 3)
+                {
+                    break;
+                }
+            }
+            return dailyNews;
+        }
+
+        public List<OtherNews> OtherNews()
+        {
+            var otherNewsList = _context.News.Take(3).ToList();
+            List<OtherNews> otherNews = new List<OtherNews>();
+
+            foreach (var otherNewsItem in otherNewsList)
+            {
+                OtherNews other = new OtherNews();
+                other.NewsId = otherNewsItem.NewId;
+                Newcategory category3 = _context.Newcategorys.SingleOrDefault(x => x.NewCategoryId == otherNewsItem.NewCategoryId);
+
+                if (category3 == null)
+                {
+                    return null;
+                }
+                other.CategoryName = category3.CategoryName;
+                other.Title = otherNewsItem.Title;
+                other.Image = otherNewsItem.Image;
+                other.SubTitle = otherNewsItem.Subtitle;
+                otherNews.Add(other);
+            }
+            return otherNews;
+        }
+
+        public object GetNewDetail(int newsId)
+        {
+            var dailyNews = DailyNews();
+            try
+            {
+                var news = _context.News.SingleOrDefault(x => x.NewId == newsId);
+                var detailNews = new NewDetail();
+                detailNews.NewsId = news.NewId;
+                detailNews.Title = news.Title;
+                detailNews.Subtitle = news.Subtitle;
+                detailNews.Content = news.Content;
+                detailNews.CreateDate = news.CreateDate?.ToString("dd-MM-yyyy");
+                detailNews.CategoryName = news.NewCategory.CategoryName;
+                if (news == null)
+                {
+                    return new
+                    {
+                        message = "No data to return",
+                        status = 400,
+                    };
+                }
+                return new
+                {
+                    message = "Get data successfully",
+                    status = 200,
+                    data = detailNews,
+                    dailyNews = dailyNews,
+                };
+            }
+            catch
+            {
+                return new
+                {
+                    message = "No data to return",
+                    status = 400,
+                };
+            }
+            
+
+        }
+
+        public object GetNewsByPage(int page, int pageSize)
+        {
+            try
+            {
+                int startIndex = (page - 1) * pageSize;
+                var totalNews = GetTotalNewsCount();
+                var result = _context.News.Skip(startIndex).Take(pageSize);
+                return new
+                {
+                    message = "Get data succfully",
+                    status = 200,
+                    totalCount = totalNews,
+                    data = result,
+                };
+            } catch
+            {
+                return new
+                {
+                    message = "Failed",
+                    status = 400,
+                };
+            }
+        }
+
+        public int GetTotalNewsCount()
+        {
+            return _context.News.Count();
         }
     }
 }
