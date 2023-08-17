@@ -13,4 +13,17 @@
         public string? Avatar { get; set; }
         public string? Gender { get; set; }
     }
+
+    public class MonthData
+    {
+        public int Month { get; set; }
+        public int Value { get; set; }
+    }
+
+    public class DayData
+    {
+        public int Day { get; set; }
+        public int Value { get; set; }
+    }
+
 }

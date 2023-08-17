@@ -27,6 +27,8 @@ namespace be.Services.UserService
         #endregion
 
         object WeekLyActivity(int accountId);
+        public object GetPhoneNumberWithoutThisPhone(string phoneNumber);
+
 
     }
 }
