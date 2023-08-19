@@ -38,6 +38,16 @@ namespace be.Services.TopicService
 
         }
 
+        public async Task<object> GetRankingOfTopic(int topicId, int topicType)
+        {
+            return await _topicRepository.GetRankingOfTopic(topicId, topicType);
+        }
+
+        public object GetTopicByTopicType(int topicType)
+        {
+            return _topicRepository.GetTopicByTopicType(topicType);
+        }
+
         public object GetTopicById(int topicId)
         {
             return _topicRepository.GetTopicById(topicId);

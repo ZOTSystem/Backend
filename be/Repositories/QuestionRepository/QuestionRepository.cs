@@ -219,6 +219,7 @@ namespace be.Repositories.QuestionRepository
                             optionC = question.OptionC,
                             optionD = question.OptionD,
                             solution = question.Solution,
+                            isRight = false,
                         }).ToList();
             return new
             {

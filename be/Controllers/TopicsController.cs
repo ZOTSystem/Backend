@@ -118,5 +118,34 @@ namespace be.Controllers
             }
         }
         #endregion
+
+        [HttpGet("getRankingOfTopic")]
+        public async Task<ActionResult> GetRankingOfTopic(int topicId, int topicType)
+        {
+            try
+            {
+                var data = await _topicService.GetRankingOfTopic(topicId, topicType);
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("getTopicByTopicType")]
+        public async Task<ActionResult> GetTopicByTopicType(int topicType)
+        {
+            try
+            {
+                var data = _topicService.GetTopicByTopicType(topicType);
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
     }
 }

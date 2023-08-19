@@ -38,7 +38,7 @@ namespace be.Controllers
         {
             try
             {
-                var data = await _subjectService.GetSubjectByTopicType(topicType);
+                var data = _subjectService.GetSubjectByTopicType(topicType);
                 return Ok(data);
             }
             catch

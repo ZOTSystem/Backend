@@ -46,5 +46,10 @@ namespace be.Services.TestDetailService
         {
             return await _testDetailRepository.GetQuestionTestByTestDetailId(testdetailId);
         }
+
+        public object GetUserDoTest()
+        {
+            return _testDetailRepository.GetUserDoTest();
+        }
     }
 }

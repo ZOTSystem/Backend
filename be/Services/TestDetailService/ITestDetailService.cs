@@ -9,6 +9,6 @@
         object UpdateTestDetail(int testdetailId);
         public object GetTestDetailByTestDetailId(int testDetailId);
         Task<object> GetQuestionTestByTestDetailId(int testDetailId);
-
+        public object GetUserDoTest();
     }
 }

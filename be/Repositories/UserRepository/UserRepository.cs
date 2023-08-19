@@ -458,7 +458,7 @@ namespace be.Repositories.UserRepository
             try
             {
                 //DateTime inputDate = DateTime.Now;
-                DateTime inputDate = new DateTime(2023, 7, 23);
+                DateTime inputDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                 DateTime sunday = GetSundayOfWeek(inputDate);
                 DateTime monday = sunday.AddDays(-6);
                 var testDetailByAccountId = _context.Testdetails.Where(x => x.AccountId == accountId); 

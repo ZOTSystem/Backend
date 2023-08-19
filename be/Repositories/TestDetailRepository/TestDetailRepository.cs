@@ -50,6 +50,8 @@ namespace be.Repositories.TestDetailRepository
                 var topic = _context.Topics.SingleOrDefault(x => x.TopicId == question.TopicId);
                 historyDTO.Topic = topic.TopicName;
                 historyDTO.Duration = topic.Duration;
+                historyDTO.AnswerRight = (int)historyDTO.Score * topic.TotalQuestion / 10;
+                historyDTO.TotalQuestion = topic.TotalQuestion;
                 testHistory.Add(historyDTO);
             }
             if (testHistory == null)
@@ -211,6 +213,7 @@ namespace be.Repositories.TestDetailRepository
 
                 dataUpdate.Score = count * 10 / listQuestion.Count();
                 dataUpdate.Submitted = true;
+                dataUpdate.CreateDate = DateTime.Now;
                 _context.Update(dataUpdate);
                 _context.SaveChanges();
                 return new
@@ -293,6 +296,37 @@ namespace be.Repositories.TestDetailRepository
             {
                 status = 200,
                 data,
+            };
+        }
+
+        public object GetUserDoTest()
+        {
+            var data = (from testDetail in _context.Testdetails
+                        join account in _context.Accounts
+                        on testDetail.AccountId equals account.AccountId
+                        where testDetail.Submitted == true
+                        select new
+                        {
+                            account.AccountId,
+                            account.FullName,
+                        }).ToList();
+
+            var newList = new List<TestDetailDTO>();
+            foreach (var item in data)
+            {
+                var itemDTO = new TestDetailDTO();
+                itemDTO.AccountId = item.AccountId;
+                itemDTO.FullName = item.FullName;
+                itemDTO.TotalTest = data.Where(x => x.AccountId == item.AccountId).Count();
+                newList.Add(itemDTO);
+            }
+
+            var newData = newList.DistinctBy(x => x.AccountId).OrderByDescending(x => x.TotalTest).Take(3).ToList();
+
+            return new
+            {
+                status = 200,
+                newData,
             };
         }
     }

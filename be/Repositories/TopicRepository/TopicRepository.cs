@@ -253,9 +253,9 @@ namespace be.Repositories.TopicRepository
                 topicDTO.TopicId = item.TopicId;
                 topicDTO.TopicName = item.TopicName;
                 topicDTO.TotalQuestion = item.TotalQuestion;
-                topicDTO.Duration = item.Duration; 
-                topicDTO.StartTestDate = item.StartTestDate?.ToString("MM/dd/yyyy H:mm");
-                topicDTO.FinishTestDate = item.FinishTestDate?.ToString("MM/dd/yyyy H:mm");
+                topicDTO.Duration = item.Duration;
+                topicDTO.StartTestDate = item.StartTestDate?.ToString("dd/MM/yyyy H:mm");
+                topicDTO.FinishTestDate = item.FinishTestDate?.ToString("dd/MM/yyyy H:mm");
 
                 foreach (var itemSubmited in listTopicSubmited)
                 {
@@ -299,6 +299,55 @@ namespace be.Repositories.TopicRepository
                 message = "Get data sucessfully",
                 status = 200,
                 data = result.FirstOrDefault(),
+            };
+        }
+        public async Task<object> GetRankingOfTopic(int topicId, int topicType)
+        {
+            var data = (from topic in _context.Topics
+                        join question in _context.Questions
+                        on topic.TopicId equals question.TopicId
+                        join questionTest in _context.Questiontests
+                        on question.QuestionId equals questionTest.QuestionId
+                        join testDetail in _context.Testdetails
+                        on questionTest.TestDetailId equals testDetail.TestDetailId
+                        join account in _context.Accounts
+                        on testDetail.AccountId equals account.AccountId
+                        join subject in _context.Subjects
+                        on question.SubjectId equals subject.SubjectId
+                        where topic.TopicId == topicId && topic.TopicType == topicType
+                        select new
+                        {
+                            topic.TopicId,
+                            topic.TopicName,
+                            testDetail.TestDetailId,
+                            subject.SubjectName,
+                            account.FullName,
+                            account.AccountId,
+                            testDetail.CreateDate,
+                            dateSubmit = String.Format("{0:dd/MM/yyy HH:mm:ss}", testDetail.CreateDate),
+                            testDetail.Score,
+                        }).OrderBy(x => x.CreateDate).OrderByDescending(x => x.Score).ToList();
+            return new
+            {
+                status = 200,
+                data,
+            };
+        }
+
+        public object GetTopicByTopicType(int topicType)
+        {
+            var data = (from topic in _context.Topics
+                        where topic.TopicType == topicType && topic.FinishTestDate >= DateTime.Now
+                        select new
+                        {
+                            topic.TopicId,
+                            topic.TopicName,
+                            topic.StartTestDate,
+                        }).OrderByDescending(x => x.StartTestDate).ToList();
+            return new
+            {
+                status = 200,
+                data,
             };
         }
     }

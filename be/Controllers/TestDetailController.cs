@@ -76,5 +76,19 @@ namespace be.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("getUserDoTest")]
+        public async Task<ActionResult> GetUserDoTest()
+        {
+            try
+            {
+                var data = _testDetailService.GetUserDoTest();
+                return Ok(data);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
     }
 }

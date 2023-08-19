@@ -31,7 +31,7 @@ namespace be.Repositories.SubjectRepository
             };
         }
 
-        public async Task<object> GetSubjectByTopicType(int topicType)
+        public object GetSubjectByTopicType(int topicType)
         {
             var data = (from subject in _context.Subjects
                         join question in _context.Questions
@@ -44,6 +44,7 @@ namespace be.Repositories.SubjectRepository
                             topicType = topicType,
                             subject.SubjectId,
                             subject.SubjectName,
+                            subject.ImgLink,
                         }).Distinct().ToList();
             return new
             {
@@ -51,7 +52,5 @@ namespace be.Repositories.SubjectRepository
                 data,
             };
         }
-
-
     }
 }

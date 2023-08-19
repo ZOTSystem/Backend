@@ -17,9 +17,9 @@ namespace be.Services.SubjectService
         {
             return await _subjectRepository.GetAllSubject();
         }
-        public async Task<object> GetSubjectByTopicType(int topicType)
+        public object GetSubjectByTopicType(int topicType)
         {
-            return await _subjectRepository.GetSubjectByTopicType(topicType);
+            return _subjectRepository.GetSubjectByTopicType(topicType);
         }
     }
 }

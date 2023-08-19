@@ -12,6 +12,7 @@ namespace be.Repositories.TestDetailRepository
         object UpdateTestDetail(int testDetailId);
         public object GetTestDetailByTestDetailId(int testDetailId);
         Task<object> GetQuestionTestByTestDetailId(int testDetailId);
+        public object GetUserDoTest();
 
     }
 }

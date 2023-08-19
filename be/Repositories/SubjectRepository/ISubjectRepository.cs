@@ -5,7 +5,8 @@ namespace be.Repositories.SubjectRepository
 {
     public interface ISubjectRepository
     {
-        Task<object> GetAllSubject(); 
-        Task<object> GetSubjectByTopicType(int topicType);
+        Task<object> GetAllSubject();
+        public object GetSubjectByTopicType(int topicType);
+
     }
 }
