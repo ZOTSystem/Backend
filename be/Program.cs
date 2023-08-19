@@ -25,6 +25,9 @@ using be.Repositories.NewsRepository;
 using be.Services.NewsService;
 using be.Repositories.QuestionTestRepository;
 using be.Services.QuestionTestService;
+using be.Repositories.NewFolder;
+using be.Repositories.SuperAdminRepository;
+using be.Services.SuperAdminService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -82,6 +85,8 @@ services.AddScoped<INewsService, NewsService>();
 services.AddScoped<IQuestionTestRepository, QuestionTestRepository>();
 services.AddScoped<IQuestionTestService, QuestionTestService>();
 
+services.AddScoped<ISuperAdminRepository, SuperAdminRepository>();
+services.AddScoped<ISuperAdminService, SuperAdminService>();
 
 var app = builder.Build();
 
