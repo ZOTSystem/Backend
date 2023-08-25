@@ -96,7 +96,7 @@ namespace be.Repositories.ModRepository
             return data;
         }
 
-        public void UpdateMod(Account account)
+        public object UpdateMod(Account account)
         {
             var updateMod = _context.Accounts.SingleOrDefault(x => x.AccountId == account.AccountId);
             updateMod.FullName = account.FullName;
@@ -106,10 +106,20 @@ namespace be.Repositories.ModRepository
             try
             {
                 _context.SaveChanges();
+                return new
+                {
+                    message = "Update Ok",
+                    status = 200,
+                    data = updateMod
+                };
             }
             catch (DbUpdateConcurrencyException)
             {
-                throw;
+                return new
+                {
+                    message = "Update failed",
+                    status = 400,
+                };
             }
         }
 

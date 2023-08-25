@@ -22,7 +22,7 @@
 
     public class CreateTopic
     {
-        public string TopicName { get; set; }
+        public string? TopicName { get; set; }
         public string? Duration { get; set; }
         public int? SubjectId { get; set; }
         public int? TopicType { get; set; }
@@ -34,7 +34,7 @@
     public class EditTopic
     {
         public int TopicId { get; set; }    
-        public string TopicName { get; set; }
+        public string? TopicName { get; set; }
         public string? Duration { get; set; }
         public int? SubjectId { get; set; }
         public int? TopicType { get; set; }

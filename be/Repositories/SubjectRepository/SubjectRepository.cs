@@ -1,4 +1,4 @@
-﻿using be.Models;
+﻿    using be.Models;
 using Microsoft.Identity.Client;
 using System.Collections;
 using System.Data.Entity.Infrastructure;
@@ -33,6 +33,18 @@ namespace be.Repositories.SubjectRepository
 
         public object GetSubjectByTopicType(int topicType)
         {
+            int id = topicType;
+            var datetime = new DateTime(2023, 8, 18, 9, 6, 0);
+
+            var dateTimeNow = DateTime.Now;
+            var check = false;
+            if (datetime >= dateTimeNow)
+            {
+                check = true;
+            } else
+            {
+                check = false;
+            }
             var data = (from subject in _context.Subjects
                         join question in _context.Questions
                         on subject.SubjectId equals question.SubjectId

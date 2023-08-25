@@ -57,7 +57,7 @@ namespace be.Controllers
             {
                 var account = new Account();
                 account.Email = addAccount.Email;
-                account.Status = "Chờ xác thực";
+                account.Status = "Đang hoạt động";
                 account.Gender = addAccount.Gender;
                 account.FullName = addAccount.FullName;
                 account.BirthDay = addAccount.BirthDay;
@@ -89,13 +89,19 @@ namespace be.Controllers
         [HttpPost("updateMod")]
         public async Task<ActionResult> UpdateMod(int accountId, Account account)
         {
-            if (accountId != account.AccountId)
+            try
+            {
+                if (accountId != account.AccountId)
+                {
+                    return BadRequest();
+                }
+                var result = _modService.UpdateMod(account);
+                return Ok(result);
+            } catch
             {
                 return BadRequest();
             }
-            _modService.UpdateMod(account);
-            var result = _modService.GetModById(accountId);
-            return Ok(result);
+            
         }
 
         [HttpGet("getAllEmail")]

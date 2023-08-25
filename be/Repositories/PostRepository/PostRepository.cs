@@ -578,6 +578,7 @@ namespace be.Repositories.PostRepository
                     p.Post.Subject.SubjectName,
                     p.AccountId,
                     p.Account.FullName,
+                    p.Account.Avatar,
                     p.Post.PostText,
                     p.Post.PostFile,
                     p.Post.Status,

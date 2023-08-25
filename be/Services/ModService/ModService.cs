@@ -38,9 +38,9 @@ namespace be.Services.ModService
             return _modRepository.GetModById(accountId);
         }
 
-        public void UpdateMod(Account account)
+        public object UpdateMod(Account account)
         {
-            _modRepository.UpdateMod(account);
+            return _modRepository.UpdateMod(account);
         }
     }
 }

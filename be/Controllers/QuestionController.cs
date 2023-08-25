@@ -91,29 +91,32 @@ namespace be.Controllers
                     question.OptionB = createQuestion.Records[i][2];
                     question.OptionC = createQuestion.Records[i][3];
                     question.OptionD = createQuestion.Records[i][4];
-                    if (createQuestion.Records[i][5].Contains(question.OptionA))
+                    if (createQuestion.Records[i][5].Contains("1"))
                     {
                         question.AnswerId = 1;
-                    } else if (createQuestion.Records[i][5].Contains(question.OptionB))
+                    } else if (createQuestion.Records[i][5].Contains("2"))
                     {
                         question.AnswerId = 2;
-                    } else if (createQuestion.Records[i][5].Contains(question.OptionC))
+                    } else if (createQuestion.Records[i][5].Contains("3"))
                     {
                         question.AnswerId = 3;
                     } else
                     {
                         question.AnswerId = 4;
                     }
-                    if (createQuestion.Records[i][5].Contains("Thông hiểu"))
+                    question.Solution = createQuestion.Records[i][6];
+                    if (createQuestion.Records[i][7].Contains("1"))
                     {
                         question.LevelId = 1;
-                    } else if (createQuestion.Records[i][5].Contains("Vận dụng thấp")){
+                    }
+                    else if (createQuestion.Records[i][7].Contains("2"))
+                    {
                         question.LevelId = 2;
-                    } else
+                    }
+                    else
                     {
                         question.LevelId = 3;
                     }
-                    question.Solution = createQuestion.Records[i][6];
                     question.CreateDate = nowDay;
                     question.Status = "0";
                     await Task.Run(() => _questionService.AddQuestionByExcel(question));
