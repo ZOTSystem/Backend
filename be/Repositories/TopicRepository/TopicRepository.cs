@@ -86,12 +86,32 @@ namespace be.Repositories.TopicRepository
                 };
             }
             topic.TopicName = editTopic.TopicName;
-            topic.Grade = editTopic.Grade;
+            if(editTopic.TopicType == 5 || editTopic.TopicType == 6)
+            {
+                topic.Grade = null;
+            } else
+            {
+                topic.Grade = editTopic.Grade;
+            }
             topic.SubjectId = editTopic.SubjectId;
-            topic.Duration = editTopic.Duration;
             topic.TopicType = editTopic.TopicType;
-            topic.StartTestDate = editTopic.StartTestDate;
-            topic.FinishTestDate = editTopic.FinishTestDate;
+            if(editTopic.TopicType == 1)
+            {
+                topic.Duration = null;
+                topic.StartTestDate = null;
+                topic.FinishTestDate = null;
+            } else if (editTopic.TopicType == 6)
+            {
+                topic.Duration = editTopic.Duration;
+                topic.StartTestDate = editTopic.StartTestDate;
+                topic.FinishTestDate = editTopic.FinishTestDate;
+            } else
+            {
+                topic.Duration = editTopic.Duration;
+                topic.StartTestDate = null;
+                topic.FinishTestDate = null;
+            }
+           
             try
             {
                 _context.SaveChanges();
@@ -161,11 +181,14 @@ namespace be.Repositories.TopicRepository
                 else if (topicDTO.TopicType == 4)
                 {
                     topicDTO.TopicTypeName = "Học kì";
-                }
-                else
+                } 
+                else if (topicDTO.TopicType == 5)
                 {
                     topicDTO.TopicTypeName = "THPT Quốc Gia";
 
+                } else
+                {
+                    topicDTO.TopicTypeName = "Cuộc thi chung";
                 }
                 topicDTO.Grade = item.Grade;
                 topicDTO.CreateDate = item.CreateDate;

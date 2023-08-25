@@ -73,7 +73,7 @@ namespace be.Repositories.SuperAdminRepository
 
         public object GetAllAdmin()
         {
-            var result = _context.Accounts.Where(x => x.RoleId == 2);
+            var result = _context.Accounts.Where(x => x.RoleId == 2).OrderByDescending(x => x.AccountId);
             if (result == null)
             {
                 return new

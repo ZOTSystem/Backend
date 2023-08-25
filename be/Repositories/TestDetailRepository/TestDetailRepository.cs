@@ -1,7 +1,5 @@
 ﻿using be.DTOs;
 using be.Models;
-using Microsoft.Identity.Client;
-using System.Collections;
 
 namespace be.Repositories.TestDetailRepository
 {
@@ -114,7 +112,7 @@ namespace be.Repositories.TestDetailRepository
                     message = "Get Data Successfully",
                     status = 200,
                     data = testHistory,
-                    levelOfUnderStanding = underStading,
+                    levelOfUnderStanding = Math.Round(underStading, 2),
                 };
             }
             var filterTest = testHistory.Where(x => x.SubjectName.Contains(subjectName));
@@ -127,19 +125,19 @@ namespace be.Repositories.TestDetailRepository
                 };
             }
             totalScore = 0;
-            foreach(var test in filterTest)
+            foreach (var test in filterTest)
             {
                 totalScore += test.Score;
             }
             average = totalScore / filterTest.Count();
-            underStading = (average * 100) / 10; 
+            underStading = (average * 100) / 10;
             return new
             {
                 message = "Get Data Successfully",
                 status = 200,
                 data = filterTest,
                 subject = subjectName,
-                levelOfUnderStanding = underStading,
+                levelOfUnderStanding = Math.Round(underStading, 2),
             };
         }
 

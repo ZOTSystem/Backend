@@ -25,7 +25,7 @@ namespace be.Repositories.StatictisRepository
                 double totalScore = 0;
                 var totalTime = 0;
                 var testDetailByUser = _context.Testdetails.Where(x => x.AccountId == userId).ToList();
-                if(testDetailByUser == null)
+                if(testDetailByUser.Count() == 0)
                 {
                     return new
                     {
@@ -44,7 +44,7 @@ namespace be.Repositories.StatictisRepository
                     var firstQuestionInTest = _context.Questiontests.Where(x => x.TestDetailId == test.TestDetailId).FirstOrDefault();
                     var question = _context.Questions.FirstOrDefault(x => x.QuestionId == firstQuestionInTest.QuestionId);
                     var topic = _context.Topics.FirstOrDefault(x => x.TopicId == question.TopicId);
-                    if (topic.Duration.Equals("15"))
+                    if (topic.Duration.Equals("15"))    
                     {
                         totalTime += 15;
                     } else if (topic.Duration.Equals("45"))
