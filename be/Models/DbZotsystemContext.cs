@@ -55,7 +55,7 @@ public partial class DbZotsystemContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-       => optionsBuilder.UseSqlServer("Server=jet1132001.database.windows.net;Port=1433;Database=zot-app;Uid=jet1132001;Pwd=@Phuochung1132001");
+       => optionsBuilder.UseSqlServer("Server=jet1132001.database.windows.net,1433; Database=zot-app; Uid=jet1132001; Pwd=@Phuochung1132001");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
