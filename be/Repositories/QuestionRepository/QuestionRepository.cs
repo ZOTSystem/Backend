@@ -220,7 +220,7 @@ namespace be.Repositories.QuestionRepository
                             optionD = question.OptionD,
                             solution = question.Solution,
                             isRight = false,
-                        }).ToList();
+                        }).OrderBy(x=>x.questionId).ToList();
             return new
             {
                 status = 200,

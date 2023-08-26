@@ -34,7 +34,7 @@ namespace be.Repositories.TestDetailRepository
         public object GetAllTestDetailByAccountID(int accountID)
         {
             var testHistory = new List<HistoryDTO>();
-            var testDetailByAccountId = _context.Testdetails.Where(x => x.AccountId == accountID).ToList().OrderByDescending(x => x.TestDetailId);
+            var testDetailByAccountId = _context.Testdetails.Where(x => x.AccountId == accountID && x.Submitted == true).ToList().OrderByDescending(x => x.TestDetailId);
             foreach (var testDetail in testDetailByAccountId)
             {
                 var historyDTO = new HistoryDTO();
@@ -200,7 +200,7 @@ namespace be.Repositories.TestDetailRepository
                         status = 200,
                     };
                 }
-                int count = 0;
+                float count = 0;
                 foreach (var item in listQuestion)
                 {
                     if (item.answerRight == item.answerChoose)
@@ -208,8 +208,8 @@ namespace be.Repositories.TestDetailRepository
                         count++;
                     }
                 }
-
-                dataUpdate.Score = count * 10 / listQuestion.Count();
+                string score = (count * 10 / listQuestion.Count()).ToString("F2");
+                dataUpdate.Score = Convert.ToDouble(score);
                 dataUpdate.Submitted = true;
                 dataUpdate.CreateDate = DateTime.Now;
                 _context.Update(dataUpdate);
@@ -289,7 +289,7 @@ namespace be.Repositories.TestDetailRepository
                             solution = question.Solution,
                             answerRightByQuestion = question.AnswerId,
                             answerUserChoose = questionTest.AnswerId
-                        }).ToList();
+                        }).OrderBy(x => x.questionId).ToList();
             return new
             {
                 status = 200,

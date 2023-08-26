@@ -32,7 +32,7 @@ namespace be.Services.TopicService
             return _topicRepository.GetAllTopic();
         }
 
-        public async Task<object> GetTopicByGrade(int? grade, int subjectId, int topicType, int accountId)
+        public async Task<object> GetTopicByGrade(int? grade, int subjectId, int? topicType, int accountId)
         {
             return await _topicRepository.GetTopicByGrade(grade, subjectId, topicType, accountId);
 

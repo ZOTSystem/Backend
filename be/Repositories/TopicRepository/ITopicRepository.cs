@@ -5,7 +5,7 @@ namespace be.Repositories.TopicRepository
 {
     public interface ITopicRepository
     {
-        Task<object> GetTopicByGrade(int? grade, int subject, int topicType, int accountId);
+        Task<object> GetTopicByGrade(int? grade, int subject, int? topicType, int accountId);
         Task<object> GetRankingOfTopic(int topicId, int topicType);
         public object GetTopicByTopicType(int topicType);
         object GetAllTopcOfExam();

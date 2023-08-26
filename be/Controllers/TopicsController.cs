@@ -20,7 +20,7 @@ namespace be.Controllers
         }
 
         [HttpGet("getTopicByGrade")]
-        public async Task<ActionResult> GetTopicByGrade(int? grade, int subjectId, int topicType, int accountId)
+        public async Task<ActionResult> GetTopicByGrade(int? grade, int subjectId, int? topicType, int accountId)
         {
             try
             {
