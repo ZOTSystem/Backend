@@ -224,7 +224,7 @@ namespace be.Repositories.TopicRepository
             };
         }
 
-        public async Task<object> GetTopicByGrade(int? grade, int subjectId, int topicType, int accountId)
+        public async Task<object> GetTopicByGrade(int? grade, int subjectId, int? topicType, int accountId)
         {
             var listTopic = (from topic in _context.Topics
                              join question in _context.Questions
@@ -247,7 +247,22 @@ namespace be.Repositories.TopicRepository
                                  topic.StartTestDate,
                                  topic.FinishTestDate
                              }).Distinct().ToList();
-
+            if (topicType == 1)
+            {
+                listTopic = listTopic.Where(x => x.TopicType == 1).Where(y => y.Grade == grade).ToList();
+            }
+            else if (topicType == null)
+            {
+                listTopic = listTopic.Where(x => x.TopicType != 1).Where(y => y.Grade == grade).ToList();
+            }
+            else if (grade == null)
+            {
+                listTopic = listTopic.Where(x => x.TopicType == topicType).ToList();
+            }
+            else
+            {
+                listTopic = listTopic.Where(x => x.TopicType == topicType).Where(y => y.Grade == grade).ToList();
+            }
             var listTopicSubmited = (from topic in _context.Topics
                                      join question in _context.Questions
                                      on topic.TopicId equals question.TopicId
@@ -349,7 +364,7 @@ namespace be.Repositories.TopicRepository
                             testDetail.CreateDate,
                             dateSubmit = String.Format("{0:dd/MM/yyy HH:mm:ss}", testDetail.CreateDate),
                             testDetail.Score,
-                        }).OrderBy(x => x.CreateDate).OrderByDescending(x => x.Score).ToList();
+                        }).OrderBy(x => x.CreateDate).OrderByDescending(x => x.Score).Distinct().ToList();
             return new
             {
                 status = 200,
