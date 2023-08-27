@@ -461,15 +461,14 @@ namespace be.Repositories.UserRepository
                 DateTime inputDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
                 DateTime sunday = GetSundayOfWeek(inputDate);
                 DateTime monday = sunday.AddDays(-6);
-                var testDetailByAccountId = _context.Testdetails.Where(x => x.AccountId == accountId); 
-                var testCount = 0;
+                var testDetailByAccountId = _context.Testdetails.Where(x => x.AccountId == accountId && x.Submitted == true); 
+                var testCount = testDetailByAccountId.Count();
                 float totalScore = 0;
                 foreach (var test in testDetailByAccountId)
                 {
-                    if(test.CreateDate >= monday && test.CreateDate <= sunday)
+                    if(test.CreateDate.HasValue && test.CreateDate.Value.Date >= monday && test.CreateDate.Value.Date <= sunday)
                     {
                         totalScore += (float)test.Score;
-                        ++testCount;
                     }
                 }
                 var avarage = Math.Round((totalScore / testCount), 1);

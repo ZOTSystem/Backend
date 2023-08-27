@@ -231,7 +231,7 @@ namespace be.Repositories.TopicRepository
                              on topic.TopicId equals question.TopicId
                              join subject in _context.Subjects
                              on question.SubjectId equals subject.SubjectId
-                             where topic.Grade == grade && subject.SubjectId == subjectId && topic.TopicType == topicType && topic.Status == "1"
+                             where topic.Grade == grade && subject.SubjectId == subjectId && topic.TopicType == topicType && topic.Status == "1" && question.Status == "1"
                              select new
                              {
                                  topic.TopicId,
@@ -290,7 +290,15 @@ namespace be.Repositories.TopicRepository
                 var topicDTO = new TopicDTO();
                 topicDTO.TopicId = item.TopicId;
                 topicDTO.TopicName = item.TopicName;
-                topicDTO.TotalQuestion = item.TotalQuestion;
+                var totalQuestion = (from topic in _context.Topics
+                                     join question in _context.Questions
+                                     on topic.TopicId equals question.TopicId
+                                     where topic.TopicId == item.TopicId && question.Status == "1"
+                                     select new
+                                     {
+                                         topic.TopicId
+                                     }).Count();
+                topicDTO.TotalQuestion = totalQuestion;
                 topicDTO.Duration = item.Duration;
                 topicDTO.StartTestDate = item.StartTestDate?.ToString("dd/MM/yyyy H:mm");
                 topicDTO.FinishTestDate = item.FinishTestDate?.ToString("dd/MM/yyyy H:mm");

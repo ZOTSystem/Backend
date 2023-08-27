@@ -201,7 +201,7 @@ namespace be.Repositories.QuestionRepository
                         on question.LevelId equals level.LevelId
                         join topic in _context.Topics
                         on question.TopicId equals topic.TopicId
-                        where question.TopicId == topicId
+                        where question.TopicId == topicId && question.Status == "1"
                         select new
                         {
                             topicId = topic.TopicId,

@@ -49,7 +49,15 @@ namespace be.Repositories.TestDetailRepository
                 historyDTO.Topic = topic.TopicName;
                 historyDTO.Duration = topic.Duration;
                 historyDTO.AnswerRight = (int)historyDTO.Score * topic.TotalQuestion / 10;
-                historyDTO.TotalQuestion = topic.TotalQuestion;
+                var totalQuestion = (from testDTL in _context.Testdetails
+                                     join questionTest in _context.Questiontests
+                                     on testDTL.TestDetailId equals questionTest.TestDetailId
+                                     where testDTL.TestDetailId == testDetail.TestDetailId
+                                     select new
+                                     {
+                                         testDetail.TestDetailId
+                                     }).Count();
+                historyDTO.TotalQuestion = totalQuestion;
                 testHistory.Add(historyDTO);
             }
             if (testHistory == null)
@@ -243,6 +251,17 @@ namespace be.Repositories.TestDetailRepository
                                        answerRight = question.QuestionId,
                                        answerChoose = questionTest.AnswerId,
                                    })?.Count();
+
+            var totalQuestion = (from questionTest in _context.Questiontests
+                                 join question in _context.Questions
+                                 on questionTest.QuestionId equals question.QuestionId
+                                 where questionTest.TestDetailId == testDetailId
+                                 select new
+                                 {
+                                     answerRight = question.QuestionId,
+                                     answerChoose = questionTest.AnswerId,
+                                 })?.Count();
+
             var data = (from testDetail in _context.Testdetails
                         join questionTest in _context.Questiontests
                         on testDetail.TestDetailId equals questionTest.TestDetailId
@@ -260,7 +279,7 @@ namespace be.Repositories.TestDetailRepository
                             subject.SubjectName,
                             topic.Duration,
                             answerRight = listRightAnswer,
-                            topic.TotalQuestion,
+                            totalQuestion = totalQuestion,
                             testDetail.Score,
                         }).Distinct().ToList();
             return new
